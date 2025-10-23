@@ -1,0 +1,8 @@
+pdflex-web/src/app/dashboard/page.tsx
+pdflex-web/src/app/dashboard/tools/compress/page.tsx
+pdflex-web/src/app/dashboard/tools/translate/page.tsx
+pdflex-web/src/app/login/page.tsx
+pdflex-web/src/app/navod/page.tsx
+pdflex-web/src/app/page.tsx
+pdflex-web/src/app/pricing/page.tsx
+pdflex-web/src/app/register/page.tsx
