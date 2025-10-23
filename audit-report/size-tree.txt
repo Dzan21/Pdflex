@@ -1,0 +1,23 @@
+1.0G	.
+682M	./pdflex-web
+619M	./pdflex-web/node_modules
+340M	./pdflex-auth
+335M	./pdflex-auth/node_modules
+ 63M	./pdflex-web/.next
+3.1M	./pdflex-auth/pdflex-web
+2.4M	./.git
+2.2M	./.git/objects
+948K	./pdflex-auth/_minio-data
+340K	./pdflex-web/src
+ 80K	./pdflex-auth/src
+ 60K	./.git/hooks
+ 56K	./pdflex-web/.git
+ 24K	./.git/logs
+ 20K	./pdflex-web/public
+ 20K	./.git/refs
+ 16K	./pdflex-auth/prisma
+4.0K	./.vscode
+4.0K	./.github/workflows
+4.0K	./.github
+4.0K	./.git/info
+  0B	./audit-report
