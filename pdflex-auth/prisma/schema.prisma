@@ -1,0 +1,103 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ======== Milestone 1 (Auth) ========
+
+model User {
+  id               String         @id @default(cuid())
+  email            String         @unique
+  passwordHash     String
+  name             String?
+  isEmailVerified  Boolean        @default(false)
+  stripeCustomerId String?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  refreshTokens    RefreshToken[]
+  emailTokens      EmailToken[]
+
+  // relations to files & jobs
+  files            File[]
+  jobs             Job[]
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  tokenHash String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  revoked   Boolean  @default(false)
+}
+
+model EmailToken {
+  id        String   @id @default(cuid())
+  tokenHash String
+  type      String   // "verify" | "reset"
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  used      Boolean  @default(false)
+}
+
+// ======== Milestone 2 (Files + Jobs) ========
+
+model File {
+  id        String        @id @default(cuid())
+  user      User          @relation(fields: [userId], references: [id])
+  userId    String
+  filename  String
+  mimeType  String
+  size      Int
+  s3Key     String        @unique
+  pages     Int?
+  createdAt DateTime      @default(now())
+
+  jobs      JobInputFile[]
+  usedBy    Job[]         @relation("ResultFile")
+}
+
+enum JobType {
+  MERGE
+  SPLIT
+  COMPRESS
+}
+
+enum JobStatus {
+  PENDING
+  PROCESSING
+  DONE
+  ERROR
+}
+
+model Job {
+  id            String         @id @default(cuid())
+  user          User           @relation(fields: [userId], references: [id])
+  userId        String
+  type          JobType
+  status        JobStatus      @default(PENDING)
+  paramsJson    Json
+  inputs        JobInputFile[]
+  resultFile    File?          @relation("ResultFile", fields: [resultFileId], references: [id])
+  resultFileId  String?
+  errorMessage  String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model JobInputFile {
+  id     String @id @default(cuid())
+  job    Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  jobId  String
+  file   File   @relation(fields: [fileId], references: [id], onDelete: Cascade)
+  fileId String
+  order  Int
+}
