@@ -80,9 +80,10 @@ export default function RegisterPage() {
   }
 
   return (
+    <div className="min-h-screen bg-white">
     <section
       aria-labelledby="register-title"
-      className="relative isolate min-h-[100svh] overflow-hidden flex items-center justify-center px-4 py-16 bg-[#f8fafc]"
+      className="relative isolate min-h-[100svh] overflow-hidden flex items-center justify-center px-4 py-16 bg-white"
     >
       <MegaNav />
 
@@ -265,5 +266,6 @@ export default function RegisterPage() {
         @keyframes reg-blob-b { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-30px,-30px) scale(1.06)} }
       `}</style>
     </section>
+    </div>
   );
 }
