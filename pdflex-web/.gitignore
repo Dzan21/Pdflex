@@ -1,0 +1,21 @@
+node_modules
+.next
+out
+.env
+.env.local
+.DS_Store
+
+# build artifacts
+next-env.d.ts
+*.tsbuildinfo
+dist/
+build/
+
+# lock file duplicates
+pnpm-lock.yaml
+package-lock 2.json
+
+# local dev artifacts
+cookies.txt
+fix.sh
+setup.sh

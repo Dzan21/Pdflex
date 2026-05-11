@@ -1,0 +1,153 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =========================
+   REACT PDF OFFICIAL LAYERS
+   (react-pdf 9.x kompatibilné)
+========================= */
+
+/* =========================
+   Design tokens (LIGHT)
+========================= */
+
+:root {
+  --bg: #f8fafc;
+  --fg: #0f172a;
+  --muted: #475569;
+  --card-bg: #ffffff;
+  --card-border: #e2e8f0;
+  --brand-500: #327fff;
+  --brand-600: #2563eb;
+  --brand-700: #1d4ed8;
+  --easing: cubic-bezier(.2, .7, .3, 1);
+  color-scheme: light;
+}
+
+/* =========================
+   Design tokens (DARK)
+========================= */
+
+:root.dark {
+  --bg: #0f172a;
+  --fg: #e5e7eb;
+  --muted: #cbd5e1;
+  --card-bg: #0b1220;
+  --card-border: #334155;
+  --brand-500: #60a5fa;
+  --brand-600: #38bdf8;
+  --brand-700: #0ea5e9;
+  color-scheme: dark;
+}
+
+/* =========================
+   Base
+========================= */
+
+html,
+body {
+  height: auto;
+  padding-left: max(0px, env(safe-area-inset-left));
+  padding-right: max(0px, env(safe-area-inset-right));
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: color .3s var(--easing), background .3s var(--easing);
+  overflow-y: auto;
+}
+
+/* =========================
+   React PDF Styling
+========================= */
+
+.react-pdf__Document {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.react-pdf__Page {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.react-pdf__Page canvas {
+  border-radius: 12px;
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, .5);
+}
+
+/* text layer selectable but invisible */
+.react-pdf__Page__textContent {
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+/* annotation links */
+.react-pdf__Page__annotations a {
+  color: var(--brand-500);
+  text-decoration: underline;
+}
+
+/* =========================
+   Container & Card
+========================= */
+
+.container {
+  @apply mx-auto max-w-6xl px-4;
+}
+
+.card {
+  background: var(--card-bg);
+  color: var(--fg);
+  border: 1px solid var(--card-border);
+  @apply rounded-xl shadow-sm transition-colors;
+}
+
+/* =========================
+   Typography
+========================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--fg);
+}
+
+p,
+span,
+li,
+label,
+small {
+  color: var(--muted);
+}
+
+a {
+  color: var(--brand-500);
+}
+
+a:hover {
+  filter: brightness(.95);
+}
+
+/* =========================
+   Utility helpers
+========================= */
+
+.text-default {
+  color: var(--fg) !important;
+}
+
+.text-muted {
+  color: var(--muted) !important;
+}
