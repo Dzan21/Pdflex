@@ -5,7 +5,6 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Loader2, Mail, Lock, User, Eye, EyeOff, CheckCircle2 } from "lucide-react";
-
 import MegaNav from "@/components/mega-nav";
 
 const API = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") || "http://localhost:4000";
@@ -83,39 +82,44 @@ export default function RegisterPage() {
   return (
     <section
       aria-labelledby="register-title"
-      className="relative isolate min-h-[100svh] overflow-hidden flex items-center justify-center px-4 py-16"
+      className="relative isolate min-h-[100svh] overflow-hidden flex items-center justify-center px-4 py-16 bg-[#f8fafc]"
     >
       <MegaNav />
-      {/* Background — same as login */}
+
+      {/* Dot grid */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-30">
         <div
-          className="absolute inset-0 opacity-[0.3] dark:opacity-[0.12]"
-          style={{ backgroundImage: "radial-gradient(circle, var(--brand-500) 1px, transparent 1px)", backgroundSize: "36px 36px" }}
+          className="absolute inset-0 opacity-[0.25]"
+          style={{ backgroundImage: "radial-gradient(circle, #327fff 1px, transparent 1px)", backgroundSize: "36px 36px" }}
         />
-        <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 80% 70% at 50% 50%, transparent 40%, var(--bg) 100%)" }} />
+        <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 80% 70% at 50% 50%, transparent 40%, #f8fafc 100%)" }} />
       </div>
+
+      {/* Blobs */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-20 overflow-hidden">
-        <div className="absolute w-[600px] h-[600px] rounded-full opacity-[0.18] dark:opacity-[0.10]"
+        <div className="absolute w-[600px] h-[600px] rounded-full opacity-[0.22]"
           style={{ top: "-15%", left: "-10%", background: "radial-gradient(circle at center, #327fff 0%, transparent 70%)", filter: "blur(72px)", animation: "reg-blob-a 16s ease-in-out infinite" }} />
-        <div className="absolute w-[500px] h-[500px] rounded-full opacity-[0.14] dark:opacity-[0.09]"
+        <div className="absolute w-[500px] h-[500px] rounded-full opacity-[0.18]"
           style={{ bottom: "-10%", right: "-8%", background: "radial-gradient(circle at center, #10b981 0%, transparent 70%)", filter: "blur(80px)", animation: "reg-blob-b 20s ease-in-out infinite", animationDelay: "3s" }} />
+        <div className="absolute w-[400px] h-[400px] rounded-full opacity-[0.10]"
+          style={{ top: "30%", left: "60%", background: "radial-gradient(circle at center, #8b5cf6 0%, transparent 70%)", filter: "blur(90px)", animation: "reg-blob-a 22s ease-in-out infinite", animationDelay: "6s" }} />
       </div>
 
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="mb-6 text-center">
-          <Link href="/" className="inline-block text-2xl font-black tracking-tight text-[var(--fg)] hover:opacity-75 transition-opacity">
+          <Link href="/" className="inline-block text-2xl font-black tracking-tight text-slate-900 hover:opacity-75 transition-opacity">
             PDF<span className="text-[var(--brand-500)]">lex</span>
           </Link>
         </div>
 
         {/* Card */}
-        <div className="rounded-3xl border border-[var(--card-border)] bg-[var(--card-bg)] shadow-xl shadow-black/[0.06] p-8">
+        <div className="rounded-3xl border border-slate-200 bg-white shadow-xl shadow-slate-900/[0.07] p-8">
           <header className="text-center mb-7">
-            <h1 id="register-title" className="text-3xl font-black tracking-tight text-[var(--fg)]">
+            <h1 id="register-title" className="text-3xl font-black tracking-tight text-slate-900">
               Create your account
             </h1>
-            <p className="mt-2 text-sm text-[var(--muted)]">
+            <p className="mt-2 text-sm text-slate-500">
               Start for free. Upgrade whenever you're ready.
             </p>
           </header>
@@ -123,8 +127,8 @@ export default function RegisterPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Name */}
             <div>
-              <label htmlFor="name" className="mb-1.5 flex items-center gap-1.5 text-sm font-medium text-[var(--fg)]">
-                <User className="h-3.5 w-3.5 text-[var(--muted)]" /> Name <span className="text-[var(--muted)] font-normal">(optional)</span>
+              <label htmlFor="name" className="mb-1.5 flex items-center gap-1.5 text-sm font-medium text-slate-700">
+                <User className="h-3.5 w-3.5 text-slate-400" /> Name <span className="text-slate-400 font-normal">(optional)</span>
               </label>
               <input
                 id="name"
@@ -132,14 +136,14 @@ export default function RegisterPage() {
                 value={form.name}
                 onChange={onChange("name")}
                 placeholder="Jane Smith"
-                className="w-full rounded-xl border border-[var(--card-border)] bg-[var(--bg)] px-4 py-3 text-sm text-[var(--fg)] placeholder:text-[var(--muted)]/60 shadow-sm transition-all duration-200 focus:border-[var(--brand-500)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-500)]/20"
+                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 shadow-sm transition-all duration-200 focus:border-[var(--brand-500)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-500)]/20"
               />
             </div>
 
             {/* Email */}
             <div>
-              <label htmlFor="reg-email" className="mb-1.5 flex items-center gap-1.5 text-sm font-medium text-[var(--fg)]">
-                <Mail className="h-3.5 w-3.5 text-[var(--muted)]" /> Email
+              <label htmlFor="reg-email" className="mb-1.5 flex items-center gap-1.5 text-sm font-medium text-slate-700">
+                <Mail className="h-3.5 w-3.5 text-slate-400" /> Email
               </label>
               <input
                 id="reg-email"
@@ -149,14 +153,14 @@ export default function RegisterPage() {
                 placeholder="you@example.com"
                 autoComplete="email"
                 required
-                className="w-full rounded-xl border border-[var(--card-border)] bg-[var(--bg)] px-4 py-3 text-sm text-[var(--fg)] placeholder:text-[var(--muted)]/60 shadow-sm transition-all duration-200 focus:border-[var(--brand-500)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-500)]/20"
+                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 shadow-sm transition-all duration-200 focus:border-[var(--brand-500)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-500)]/20"
               />
             </div>
 
             {/* Password + strength */}
             <div>
-              <label htmlFor="reg-password" className="mb-1.5 flex items-center gap-1.5 text-sm font-medium text-[var(--fg)]">
-                <Lock className="h-3.5 w-3.5 text-[var(--muted)]" /> Password
+              <label htmlFor="reg-password" className="mb-1.5 flex items-center gap-1.5 text-sm font-medium text-slate-700">
+                <Lock className="h-3.5 w-3.5 text-slate-400" /> Password
               </label>
               <div className="relative">
                 <input
@@ -167,11 +171,11 @@ export default function RegisterPage() {
                   placeholder="••••••••"
                   autoComplete="new-password"
                   required
-                  className="w-full rounded-xl border border-[var(--card-border)] bg-[var(--bg)] px-4 py-3 pr-11 text-sm text-[var(--fg)] placeholder:text-[var(--muted)]/60 shadow-sm transition-all duration-200 focus:border-[var(--brand-500)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-500)]/20"
+                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 pr-11 text-sm text-slate-900 placeholder:text-slate-400 shadow-sm transition-all duration-200 focus:border-[var(--brand-500)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-500)]/20"
                 />
                 <button
                   type="button"
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--muted)] hover:text-[var(--fg)] transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition-colors"
                   onMouseDown={() => setShowPassword(true)}
                   onMouseUp={() => setShowPassword(false)}
                   onMouseLeave={() => setShowPassword(false)}
@@ -192,7 +196,7 @@ export default function RegisterPage() {
                       <div
                         key={i}
                         className={`h-1 flex-1 rounded-full transition-all duration-300 ${
-                          i <= strength ? STRENGTH_COLORS[strength] : "bg-[var(--card-border)]"
+                          i <= strength ? STRENGTH_COLORS[strength] : "bg-slate-200"
                         }`}
                       />
                     ))}
@@ -206,12 +210,12 @@ export default function RegisterPage() {
 
             {/* Messages */}
             {error && (
-              <div className="rounded-xl border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-600 dark:border-red-800 dark:bg-red-900/20 dark:text-red-300">
+              <div className="rounded-xl border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-600">
                 {error}
               </div>
             )}
             {info && (
-              <div className="flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2.5 text-sm text-emerald-700 dark:border-emerald-800 dark:bg-emerald-900/20 dark:text-emerald-300">
+              <div className="flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2.5 text-sm text-emerald-700">
                 <CheckCircle2 className="h-4 w-4 shrink-0" />{info}
               </div>
             )}
@@ -222,9 +226,9 @@ export default function RegisterPage() {
                 type="checkbox"
                 checked={agreed}
                 onChange={(e) => setAgreed(e.target.checked)}
-                className="mt-0.5 h-4 w-4 shrink-0 rounded border-[var(--card-border)] accent-[var(--brand-500)] cursor-pointer"
+                className="mt-0.5 h-4 w-4 shrink-0 rounded border-slate-300 accent-[var(--brand-500)] cursor-pointer"
               />
-              <span className="text-xs text-[var(--muted)] leading-relaxed">
+              <span className="text-xs text-slate-500 leading-relaxed">
                 I agree to the{" "}
                 <Link href="/terms" className="text-[var(--brand-500)] hover:underline">Terms of Service</Link>
                 {" "}and{" "}
@@ -248,7 +252,7 @@ export default function RegisterPage() {
         </div>
 
         {/* Below card */}
-        <p className="mt-5 text-center text-sm text-[var(--muted)]">
+        <p className="mt-5 text-center text-sm text-slate-500">
           Already have an account?{" "}
           <Link href="/login" className="font-semibold text-[var(--brand-500)] hover:underline transition-colors">
             Sign in →
