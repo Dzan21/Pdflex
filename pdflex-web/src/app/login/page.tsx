@@ -6,7 +6,6 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Loader2, Mail, Lock, CheckCircle2, Eye, EyeOff } from "lucide-react";
 import { useAuth } from "@/components/auth-provider";
-import { motion } from "framer-motion";
 
 export default function LoginPage() {
   const [email, setEmail] = React.useState("");
@@ -21,7 +20,7 @@ export default function LoginPage() {
 
   React.useEffect(() => {
     if (qp.get("verified") === "1") {
-      setInfo("E-mail úspešne overený. Môžeš sa prihlásiť.");
+      setInfo("Email successfully verified. You can now sign in.");
     }
   }, [qp]);
 
@@ -29,205 +28,175 @@ export default function LoginPage() {
     e.preventDefault();
     setError(null);
     setInfo(null);
-    if (!email || !password) {
-      setError("Vyplň e-mail aj heslo.");
-      return;
-    }
+    if (!email || !password) { setError("Please enter your email and password."); return; }
     setLoading(true);
     try {
       await login(email, password);
       router.replace("/dashboard");
     } catch (err: any) {
-      setError(err?.message || "Niečo sa pokazilo.");
+      setError(err?.message || "Something went wrong.");
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <motion.section
+    <section
       aria-labelledby="login-title"
-      className="relative isolate min-h-[100svh] overflow-hidden"
-      initial={{ opacity: 0, y: 18, scale: 0.985 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      className="relative isolate min-h-[100svh] overflow-hidden flex items-center justify-center px-4 py-16"
     >
-      {/* ambient background */}
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(1200px 700px at 15% -10%, color-mix(in oklab, var(--brand-500) 16%, transparent), transparent 60%), radial-gradient(1000px 600px at 85% 110%, color-mix(in oklab, #10b981 14%, transparent), transparent 65%)",
-        }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      />
-
-      {/* bubbles */}
-      <motion.div
-        aria-hidden
-        className="blob absolute left-[-100px] top-[80px] h-[480px] w-[480px] rounded-[42%] blur-3xl opacity-80"
-        style={{
-          background:
-            "radial-gradient(closest-side,rgba(255,255,255,.65),rgba(255,255,255,.15),transparent)",
-          animation: "auth-float-a 13s ease-in-out infinite",
-        }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.8 }}
-        transition={{ duration: 0.6, delay: 0.1 }}
-      />
-      <motion.div
-        aria-hidden
-        className="blob absolute right-[-60px] bottom-[120px] h-[540px] w-[540px] rounded-[40%] blur-3xl opacity-70"
-        style={{
-          background:
-            "radial-gradient(closest-side,rgba(255,255,255,.45),rgba(255,255,255,.1),transparent)",
-          animation: "auth-float-b 16s ease-in-out infinite 2s",
-        }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.7 }}
-        transition={{ duration: 0.6, delay: 0.15 }}
-      />
-
-      {/* content */}
-      <div className="container relative z-10 mx-auto flex min-h-[100svh] w-full items-center justify-center px-4 py-16">
-        <motion.div
-          className="relative w-full max-w-md"
-          initial={{ opacity: 0, y: 10, filter: "blur(6px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: 0.05 }}
-        >
-          <div className="relative rounded-2xl border border-white/30 bg-white/15 dark:border-white/10 dark:bg-white/5 backdrop-blur-[22px] shadow-[0_8px_60px_-12px_rgba(0,0,0,0.25)]">
-            <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-br from-white/[0.20] to-white/[0.04] dark:from-white/[0.06] dark:to-transparent" />
-            <div className="relative p-6 md:p-8">
-              <header className="text-center">
-                <h1
-                  id="login-title"
-                  className="bg-gradient-to-r from-[var(--brand-500)] to-emerald-400 bg-clip-text text-3xl font-extrabold text-transparent md:text-4xl"
-                >
-                  Prihlásiť sa
-                </h1>
-                <p className="mx-auto mt-2 max-w-sm text-muted">
-                  Vitaj späť. Zadaj prístupové údaje a pokračuj.
-                </p>
-              </header>
-
-              <form onSubmit={handleSubmit} className="mt-7 space-y-4">
-                {info && (
-                  <div className="flex items-center gap-2 rounded-md border border-emerald-300/70 bg-emerald-50/60 px-3 py-2 text-sm text-emerald-700 dark:border-emerald-900/40 dark:bg-emerald-900/20 dark:text-emerald-200">
-                    <CheckCircle2 className="h-4 w-4" />
-                    {info}
-                  </div>
-                )}
-
-                <label className="block">
-                  <span className="mb-1 inline-flex items-center gap-2 text-sm font-medium">
-                    <Mail className="h-4 w-4 text-accent" /> E-mail
-                  </span>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="ja@example.com"
-                    autoComplete="email"
-                    className="w-full rounded-md border border-white/40 bg-white/20 px-3 py-2 text-[color:var(--fg)] placeholder:text-white/60 shadow-sm backdrop-blur-md focus:border-[var(--brand-500)] focus:ring-1 focus:ring-[var(--brand-500)] transition"
-                    required
-                  />
-                </label>
-
-                {/* Password + eye (hold-to-show) */}
-                <label className="relative block">
-                  <span className="mb-1 inline-flex items-center gap-2 text-sm font-medium">
-                    <Lock className="h-4 w-4 text-accent" /> Heslo
-                  </span>
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="••••••••"
-                    autoComplete="current-password"
-                    className="w-full rounded-md border border-white/40 bg-white/20 px-3 py-2 pr-10 text-[color:var(--fg)] placeholder:text-white/60 shadow-sm backdrop-blur-md focus:border-[var(--brand-500)] focus:ring-1 focus:ring-[var(--brand-500)] transition"
-                    required
-                  />
-                  <button
-                    type="button"
-                    className="absolute right-3 top-[34px] text-white/70 transition hover:text-white"
-                    onMouseDown={() => setShowPassword(true)}
-                    onMouseUp={() => setShowPassword(false)}
-                    onMouseLeave={() => setShowPassword(false)}
-                    onTouchStart={() => setShowPassword(true)}
-                    onTouchEnd={() => setShowPassword(false)}
-                    tabIndex={-1}
-                    aria-label="Zobraziť heslo dočasne"
-                  >
-                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-                  </button>
-                </label>
-
-                {error && (
-                  <div className="rounded-md border border-red-300/70 bg-red-50/60 px-3 py-2 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-900/20 dark:text-red-200">
-                    {error}
-                  </div>
-                )}
-
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="btn w-full rounded-lg bg-gradient-to-r from-[var(--brand-500)] to-emerald-500 px-4 py-2 font-semibold text-white shadow-md backdrop-blur-sm transition hover:brightness-95 disabled:opacity-60"
-                >
-                  {loading ? (
-                    <span className="inline-flex items-center gap-2">
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                      Prihlasujem…
-                    </span>
-                  ) : (
-                    "Prihlásiť sa"
-                  )}
-                </button>
-              </form>
-
-              <div className="mt-5 flex items-center justify-between text-sm">
-                <Link href="/register" className="underline hover:opacity-80">
-                  Nemáš účet? Registruj sa
-                </Link>
-                <Link href="/reset-password" className="text-muted hover:underline">
-                  Zabudnuté heslo
-                </Link>
-              </div>
-            </div>
-          </div>
-        </motion.div>
+      {/* Background */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-30">
+        <div
+          className="absolute inset-0 opacity-[0.3] dark:opacity-[0.12]"
+          style={{
+            backgroundImage: "radial-gradient(circle, var(--brand-500) 1px, transparent 1px)",
+            backgroundSize: "36px 36px",
+          }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{ background: "radial-gradient(ellipse 80% 70% at 50% 50%, transparent 40%, var(--bg) 100%)" }}
+        />
+      </div>
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-20 overflow-hidden">
+        <div className="absolute w-[600px] h-[600px] rounded-full opacity-[0.18] dark:opacity-[0.10]"
+          style={{ top: "-15%", left: "-10%", background: "radial-gradient(circle at center, #327fff 0%, transparent 70%)", filter: "blur(72px)", animation: "auth-blob-a 16s ease-in-out infinite" }} />
+        <div className="absolute w-[500px] h-[500px] rounded-full opacity-[0.14] dark:opacity-[0.09]"
+          style={{ bottom: "-10%", right: "-8%", background: "radial-gradient(circle at center, #10b981 0%, transparent 70%)", filter: "blur(80px)", animation: "auth-blob-b 20s ease-in-out infinite", animationDelay: "3s" }} />
       </div>
 
-      {/* noise */}
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='.25'/></svg>\")",
-          backgroundSize: "320px 320px",
-        }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.03 }}
-        transition={{ duration: 0.6, delay: 0.1 }}
-      />
+      <div className="w-full max-w-md">
+        {/* Logo above card */}
+        <div className="mb-6 text-center">
+          <Link href="/" className="inline-block text-2xl font-black tracking-tight text-[var(--fg)] hover:opacity-75 transition-opacity">
+            PDF<span className="text-[var(--brand-500)]">lex</span>
+          </Link>
+        </div>
+
+        {/* Card */}
+        <div className="rounded-3xl border border-[var(--card-border)] bg-[var(--card-bg)] shadow-xl shadow-black/[0.06] p-8">
+          <header className="text-center mb-7">
+            <h1 id="login-title" className="text-3xl font-black tracking-tight text-[var(--fg)]">
+              Welcome back
+            </h1>
+            <p className="mt-2 text-sm text-[var(--muted)]">Sign in to your PDFlex account</p>
+          </header>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {info && (
+              <div className="flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2.5 text-sm text-emerald-700 dark:border-emerald-800 dark:bg-emerald-900/20 dark:text-emerald-300">
+                <CheckCircle2 className="h-4 w-4 shrink-0" />{info}
+              </div>
+            )}
+
+            {/* Email */}
+            <div>
+              <label htmlFor="email" className="mb-1.5 flex items-center gap-1.5 text-sm font-medium text-[var(--fg)]">
+                <Mail className="h-3.5 w-3.5 text-[var(--muted)]" /> Email
+              </label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                autoComplete="email"
+                required
+                className="w-full rounded-xl border border-[var(--card-border)] bg-[var(--bg)] px-4 py-3 text-sm text-[var(--fg)] placeholder:text-[var(--muted)]/60 shadow-sm transition-all duration-200 focus:border-[var(--brand-500)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-500)]/20"
+              />
+            </div>
+
+            {/* Password */}
+            <div>
+              <div className="mb-1.5 flex items-center justify-between">
+                <label htmlFor="password" className="flex items-center gap-1.5 text-sm font-medium text-[var(--fg)]">
+                  <Lock className="h-3.5 w-3.5 text-[var(--muted)]" /> Password
+                </label>
+                <Link href="/reset-password" className="text-xs text-[var(--muted)] hover:text-[var(--brand-500)] transition-colors duration-200">
+                  Forgot password?
+                </Link>
+              </div>
+              <div className="relative">
+                <input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  autoComplete="current-password"
+                  required
+                  className="w-full rounded-xl border border-[var(--card-border)] bg-[var(--bg)] px-4 py-3 pr-11 text-sm text-[var(--fg)] placeholder:text-[var(--muted)]/60 shadow-sm transition-all duration-200 focus:border-[var(--brand-500)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-500)]/20"
+                />
+                <button
+                  type="button"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--muted)] hover:text-[var(--fg)] transition-colors"
+                  onMouseDown={() => setShowPassword(true)}
+                  onMouseUp={() => setShowPassword(false)}
+                  onMouseLeave={() => setShowPassword(false)}
+                  onTouchStart={() => setShowPassword(true)}
+                  onTouchEnd={() => setShowPassword(false)}
+                  tabIndex={-1}
+                  aria-label="Hold to show password"
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
+            </div>
+
+            {error && (
+              <div className="rounded-xl border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-600 dark:border-red-800 dark:bg-red-900/20 dark:text-red-300">
+                {error}
+              </div>
+            )}
+
+            {/* Submit */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full rounded-xl bg-gradient-to-r from-[var(--brand-500)] to-[var(--brand-600)] py-3 text-sm font-semibold text-white shadow-md shadow-[var(--brand-500)]/25 transition-all duration-200 hover:brightness-110 hover:scale-[1.01] disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              {loading ? (
+                <span className="inline-flex items-center justify-center gap-2">
+                  <Loader2 className="h-4 w-4 animate-spin" /> Signing in…
+                </span>
+              ) : "Sign in"}
+            </button>
+
+            {/* Divider */}
+            <div className="relative my-2">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-[var(--card-border)]" />
+              </div>
+              <div className="relative flex justify-center">
+                <span className="bg-[var(--card-bg)] px-3 text-xs text-[var(--muted)]">or continue with</span>
+              </div>
+            </div>
+
+            {/* Social placeholder */}
+            <button
+              type="button"
+              disabled
+              className="w-full rounded-xl border border-[var(--card-border)] py-3 text-sm font-medium text-[var(--muted)] transition-colors hover:bg-[var(--bg)] disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              Google — coming soon
+            </button>
+          </form>
+        </div>
+
+        {/* Below card */}
+        <p className="mt-5 text-center text-sm text-[var(--muted)]">
+          Don't have an account?{" "}
+          <Link href="/register" className="font-semibold text-[var(--brand-500)] hover:underline transition-colors">
+            Create one →
+          </Link>
+        </p>
+      </div>
 
       <style jsx>{`
-        @keyframes auth-float-a {
-          0%,100% { transform: translate3d(0,0,0) }
-          50% { transform: translate3d(0,-14px,0) }
-        }
-        @keyframes auth-float-b {
-          0%,100% { transform: translate3d(0,0,0) }
-          50% { transform: translate3d(0,-18px,0) }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .blob { animation: none !important; }
-        }
+        @keyframes auth-blob-a { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(30px,40px) scale(1.08)} }
+        @keyframes auth-blob-b { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-30px,-30px) scale(1.06)} }
       `}</style>
-    </motion.section>
+    </section>
   );
 }

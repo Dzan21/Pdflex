@@ -6,7 +6,8 @@ import { AuthProvider } from "@/components/auth-provider";
 import { Footer } from "@/components/footer";
 import { ToasterHost } from "@/components/toaster";
 import { ThemeScript } from "@/components/theme-script";
-import { inter } from "@/styles/font"; // ✅ jednotný import fontu
+import { PageTransition } from "@/components/page-transition";
+import { inter } from "@/styles/font";
 
 export const metadata: Metadata = {
   title: "PDFlex",
@@ -34,8 +35,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </a>
 
         <AuthProvider>
-          <main id="main" className="relative z-0 py-6">
-            {children}
+          <main id="main" className="relative z-0">
+            <PageTransition>{children}</PageTransition>
           </main>
           <Footer />
           <ToasterHost />
