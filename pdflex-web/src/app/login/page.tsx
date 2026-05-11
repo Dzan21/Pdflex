@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Loader2, Mail, Lock, CheckCircle2, Eye, EyeOff } from "lucide-react";
 import { useAuth } from "@/components/auth-provider";
+import MegaNav from "@/components/mega-nav";
 
 export default function LoginPage() {
   const [email, setEmail] = React.useState("");
@@ -45,6 +46,7 @@ export default function LoginPage() {
       aria-labelledby="login-title"
       className="relative isolate min-h-[100svh] overflow-hidden flex items-center justify-center px-4 py-16"
     >
+      <MegaNav />
       {/* Background */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-30">
         <div

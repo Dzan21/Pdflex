@@ -1,8 +1,10 @@
 "use client";
 
+import * as React from "react";
 import { useState } from "react";
 import Link from "next/link";
 import { Check } from "lucide-react";
+import { useReveal } from "@/hooks/use-reveal";
 
 /* ── Types ─────────────────────────────────────────── */
 
@@ -228,6 +230,7 @@ function PlanCard({ plan, yearly }: { plan: Plan; yearly: boolean }) {
 
 export default function Pricing() {
   const [yearly, setYearly] = useState(false);
+  const { ref, visible } = useReveal(0.1);
 
   return (
     <section
@@ -273,9 +276,9 @@ export default function Pricing() {
         />
       </div>
 
-      <div className="mx-auto max-w-6xl px-4">
+      <div ref={ref as React.RefObject<HTMLDivElement>} className="mx-auto max-w-6xl px-4">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className={`text-center mb-12 reveal${visible ? " is-visible" : ""}`}>
           <h2
             id="pricing-title"
             className="text-4xl font-black tracking-tight md:text-5xl"
@@ -297,8 +300,13 @@ export default function Pricing() {
 
         {/* Cards */}
         <div className="grid gap-6 lg:grid-cols-3 items-center">
-          {PLANS.map((plan) => (
-            <PlanCard key={plan.id} plan={plan} yearly={yearly} />
+          {PLANS.map((plan, pi) => (
+            <div
+              key={plan.id}
+              className={`reveal reveal-delay-${pi + 2}${visible ? " is-visible" : ""}`}
+            >
+              <PlanCard plan={plan} yearly={yearly} />
+            </div>
           ))}
         </div>
 

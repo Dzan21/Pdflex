@@ -150,7 +150,10 @@ export default function Stats() {
 
       <div className="mx-auto max-w-6xl px-4">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div
+          className="text-center mb-16 transition-all duration-700"
+          style={{ opacity: active ? 1 : 0, transform: active ? "translateY(0)" : "translateY(24px)" }}
+        >
           <h2
             id="stats-title"
             className="text-4xl font-black tracking-tight md:text-5xl"

@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import {
   FileText,
   Table2,
@@ -22,6 +23,7 @@ import {
   ScanLine,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { useReveal } from "@/hooks/use-reveal";
 
 /* ── Types ─────────────────────────────────────────── */
 
@@ -151,6 +153,7 @@ function ToolCard({ tool }: { tool: Tool }) {
 /* ── Section ────────────────────────────────────────── */
 
 export default function Features() {
+  const { ref, visible } = useReveal(0.1);
   return (
     <section
       id="tools"
@@ -230,9 +233,9 @@ export default function Features() {
         }
       `}</style>
 
-      <div className="mx-auto max-w-6xl px-4">
+      <div ref={ref as React.RefObject<HTMLDivElement>} className="mx-auto max-w-6xl px-4">
         {/* Section header */}
-        <div className="text-center mb-16">
+        <div className={`text-center mb-16 reveal${visible ? " is-visible" : ""}`}>
           <h2
             id="features-title"
             className="text-4xl font-black tracking-tight md:text-5xl"
@@ -249,8 +252,11 @@ export default function Features() {
 
         {/* Tool groups */}
         <div className="space-y-14">
-          {GROUPS.map((group) => (
-            <div key={group.label}>
+          {GROUPS.map((group, gi) => (
+            <div
+              key={group.label}
+              className={`reveal reveal-delay-${gi + 2}${visible ? " is-visible" : ""}`}
+            >
               {/* Group label */}
               <div className="flex items-center gap-3 mb-5">
                 <h3 className={`text-xs font-bold uppercase tracking-widest ${group.accent}`}>

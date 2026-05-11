@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Loader2, Mail, Lock, User, Eye, EyeOff, CheckCircle2 } from "lucide-react";
 
+import MegaNav from "@/components/mega-nav";
+
 const API = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") || "http://localhost:4000";
 
 type RegState = { name: string; email: string; password: string };
@@ -83,6 +85,7 @@ export default function RegisterPage() {
       aria-labelledby="register-title"
       className="relative isolate min-h-[100svh] overflow-hidden flex items-center justify-center px-4 py-16"
     >
+      <MegaNav />
       {/* Background — same as login */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-30">
         <div
