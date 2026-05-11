@@ -5,4 +5,6 @@ export const inter = Inter({
     subsets: ["latin"],
     display: "swap",
     variable: "--font-inter",
+    preload: false,
+    fallback: ["system-ui", "arial"],
 });
