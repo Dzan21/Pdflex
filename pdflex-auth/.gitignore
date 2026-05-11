@@ -12,3 +12,7 @@ access.txt
 cookies.txt
 cors.json
 cors.xml
+
+# lock file duplicates
+pnpm-lock.yaml
+package-lock 2.json
