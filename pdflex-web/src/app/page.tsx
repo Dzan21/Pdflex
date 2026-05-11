@@ -3,9 +3,7 @@ import Reveal from "@/components/effects/reveal";
 import Hero from "@/components/landing/hero";
 import Features from "@/components/landing/features";
 import Stats from "@/components/landing/stats";
-import Showcase from "@/components/landing/showcase";
 import Pricing from "@/components/landing/pricing";
-import CTA from "@/components/landing/cta";
 import MegaNav from "@/components/mega-nav";
 
 export default function HomePage() {
@@ -14,7 +12,7 @@ export default function HomePage() {
       <MegaNav />
 
       <div aria-hidden className="landing-grid absolute inset-0" />
-      <Fullpage className="relative z-10">
+      <Fullpage className="relative z-10 pt-16">
         <section id="home" data-snap="section" className="min-h-[100svh] flex items-center justify-center">
           <div className="w-full">
             <Reveal><Hero /></Reveal>
@@ -27,27 +25,15 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section data-snap="section" className="min-h-[100svh] flex items-center justify-center">
+        <section id="stats" data-snap="section" className="min-h-[100svh] flex items-center justify-center">
           <div className="w-full">
             <Reveal delay={80}><Stats /></Reveal>
-          </div>
-        </section>
-
-        <section id="showcase" data-snap="section" className="min-h-[100svh] flex items-center justify-center">
-          <div className="w-full">
-            <Reveal delay={100}><Showcase /></Reveal>
           </div>
         </section>
 
         <section id="pricing" data-snap="section" className="min-h-[100svh] flex items-center justify-center">
           <div className="w-full">
             <Reveal delay={100}><Pricing /></Reveal>
-          </div>
-        </section>
-
-        <section id="cta" data-snap="section" className="min-h-[100svh] flex items-center justify-center">
-          <div className="w-full">
-            <Reveal delay={120}><CTA /></Reveal>
           </div>
         </section>
       </Fullpage>

@@ -7,9 +7,9 @@ import { Moon, Sun, User, LogOut, Menu, X } from "lucide-react";
 import { useAuth } from "@/components/auth-provider";
 
 const NAV_LINKS = [
-  { label: "Tools", href: "/#tools" },
+  { label: "Tools",   href: "/#tools" },
   { label: "Pricing", href: "/#pricing" },
-  { label: "About", href: "/about" },
+  { label: "About",   href: "/about" },
 ];
 
 function ThemeToggle() {
@@ -30,7 +30,7 @@ function ThemeToggle() {
     <button
       onClick={toggle}
       aria-label="Toggle theme"
-      className="p-2 rounded-full hover:bg-[var(--card-bg)] transition-colors duration-200"
+      className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors duration-200"
     >
       {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
     </button>
@@ -50,12 +50,8 @@ export default function MegaNav() {
   const isDashboard = pathname?.startsWith("/dashboard");
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
-    const onResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-      setReady(true);
-    };
-
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    const onResize = () => { setIsMobile(window.innerWidth <= 768); setReady(true); };
     onResize();
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -66,7 +62,6 @@ export default function MegaNav() {
     };
   }, []);
 
-  // Close mobile menu on route change
   useEffect(() => { setMobileOpen(false); }, [pathname]);
 
   const handleLogout = async () => {
@@ -85,24 +80,28 @@ export default function MegaNav() {
   return (
     <header
       className={[
-        "sticky top-0 z-50 transition-all duration-300",
-        scrolled
-          ? "bg-[var(--bg)]/80 backdrop-blur-md border-b border-[var(--card-border)] shadow-sm"
-          : "bg-transparent border-b border-transparent",
+        "fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300",
+        "bg-white/80 dark:bg-[#0f172a]/80 backdrop-blur-md",
+        "border-b border-[var(--card-border)]",
+        scrolled ? "shadow-sm shadow-black/[0.06]" : "shadow-none",
       ].join(" ")}
     >
-      <div className="mx-auto max-w-6xl px-4 h-16 flex items-center justify-between gap-6">
-        {/* Logo */}
-        <button
-          onClick={handleLogoClick}
-          aria-label="Go to homepage"
-          className="text-lg font-bold tracking-tight text-[var(--fg)] hover:opacity-80 transition-opacity"
-        >
-          PDF<span className="text-[var(--brand-500)]">lex</span>
-        </button>
+      {/* 3-column grid: logo | nav | buttons */}
+      <div className="mx-auto max-w-6xl px-4 h-16 grid grid-cols-3 items-center">
 
-        {/* Desktop nav links */}
-        <nav className="hidden md:flex items-center gap-6">
+        {/* LEFT — Logo */}
+        <div className="flex items-center">
+          <button
+            onClick={handleLogoClick}
+            aria-label="Go to homepage"
+            className="text-lg font-bold tracking-tight text-[var(--fg)] hover:opacity-75 transition-opacity"
+          >
+            PDF<span className="text-[var(--brand-500)]">lex</span>
+          </button>
+        </div>
+
+        {/* CENTER — Nav links (desktop) */}
+        <nav className="hidden md:flex items-center justify-center gap-7">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
@@ -114,8 +113,8 @@ export default function MegaNav() {
           ))}
         </nav>
 
-        {/* Right side */}
-        <div className="flex items-center gap-2">
+        {/* RIGHT — Buttons */}
+        <div className="flex items-center justify-end gap-2">
           <ThemeToggle />
 
           {user ? (
@@ -154,7 +153,7 @@ export default function MegaNav() {
 
           {/* Mobile hamburger */}
           <button
-            className="md:hidden p-2 rounded-full hover:bg-[var(--card-bg)] transition-colors"
+            className="md:hidden p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
             onClick={() => setMobileOpen((v) => !v)}
             aria-label="Menu"
           >
@@ -166,7 +165,8 @@ export default function MegaNav() {
       {/* Mobile dropdown */}
       <div
         className={[
-          "md:hidden overflow-hidden transition-all duration-300 bg-[var(--bg)]/95 backdrop-blur-md border-b border-[var(--card-border)]",
+          "md:hidden overflow-hidden transition-all duration-300",
+          "bg-white/95 dark:bg-[#0f172a]/95 backdrop-blur-md border-b border-[var(--card-border)]",
           mobileOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0",
         ].join(" ")}
       >
@@ -181,24 +181,14 @@ export default function MegaNav() {
             </Link>
           ))}
           {!user && (
-            <Link
-              href="/login"
-              className="mt-2 py-2 text-sm font-medium text-[var(--muted)] hover:text-[var(--fg)] transition-colors"
-            >
+            <Link href="/login" className="mt-2 py-2 text-sm font-medium text-[var(--muted)] hover:text-[var(--fg)] transition-colors">
               Sign in
             </Link>
           )}
           {user && (
             <>
-              <Link href="/dashboard" className="py-2 text-sm font-medium text-[var(--muted)]">
-                Dashboard
-              </Link>
-              <button
-                onClick={handleLogout}
-                className="py-2 text-sm text-left text-red-500"
-              >
-                Sign out
-              </button>
+              <Link href="/dashboard" className="py-2 text-sm font-medium text-[var(--muted)]">Dashboard</Link>
+              <button onClick={handleLogout} className="py-2 text-sm text-left text-red-500">Sign out</button>
             </>
           )}
         </nav>
