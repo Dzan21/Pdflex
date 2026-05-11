@@ -143,7 +143,7 @@ export default function MegaNav() {
                 Sign in
               </Link>
               <Link
-                href="/register"
+                href="/dashboard"
                 className="inline-flex items-center text-sm font-semibold bg-[var(--brand-500)] hover:bg-[var(--brand-600)] text-white px-4 py-1.5 rounded-full transition-colors duration-200 shadow-sm"
               >
                 Try for free

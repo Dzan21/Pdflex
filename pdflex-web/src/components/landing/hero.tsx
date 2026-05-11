@@ -155,7 +155,7 @@ export default function Hero() {
             style={{ animation: "hero-word-in 0.6s cubic-bezier(.2,.7,.3,1) 1.1s forwards" }}
           >
             <Link
-              href="/register"
+              href="/dashboard"
               className="group inline-flex items-center justify-center rounded-full bg-[var(--brand-500)] px-6 py-3 text-sm font-medium text-white shadow-lg shadow-[var(--brand-500)]/30 transition hover:scale-[1.03] hover:brightness-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-500)]/50"
             >
               <Sparkles className="mr-2 h-4 w-4 animate-pulse" />
