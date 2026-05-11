@@ -9,6 +9,7 @@ import authRoutes from "./routes/auth";
 import fileRoutes from "./routes/files";
 import jobRoutes from "./routes/jobs";
 import toolsRoutes from "./routes/tools";
+import statsRoutes from "./routes/stats";
 
 const app = express();
 
@@ -55,6 +56,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/files", fileRoutes);
 app.use("/api/jobs", jobRoutes);
 app.use("/api/tools", toolsRoutes);
+app.use("/api/stats", statsRoutes);
 
 const PORT = Number(process.env.PORT) || 4000;
 app.listen(PORT, () => console.log(`PDFlex API listening on ${PORT}`));
