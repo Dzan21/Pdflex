@@ -1,104 +1,211 @@
-// src/components/landing/features.tsx
 "use client";
 
 import {
-  Languages,
-  FileArchive,
-  Merge,
-  ShieldCheck,
+  FileText,
+  Table2,
+  Image,
+  Monitor,
+  GitMerge,
+  Scissors,
+  RotateCw,
+  Droplets,
+  EyeOff,
+  Hash,
+  Lock,
+  Unlock,
   PenLine,
-  Repeat2,
+  Award,
+  Languages,
+  FileSearch,
+  MessageSquare,
+  FileArchive,
+  ScanLine,
 } from "lucide-react";
-import * as React from "react";
+import type { LucideIcon } from "lucide-react";
 
-const items = [
-  { icon: <Languages className="h-6 w-6 text-cyan-400" />,   title: "Translate",    desc: "AI translation powered by DeepL — layout preserved, context intact." },
-  { icon: <FileArchive className="h-6 w-6 text-indigo-400" />, title: "Compress",     desc: "Reduce file size while keeping every pixel crisp and readable." },
-  { icon: <Merge className="h-6 w-6 text-emerald-400" />,      title: "Merge & Split",desc: "Combine or separate PDFs effortlessly with pixel precision." },
-  { icon: <PenLine className="h-6 w-6 text-amber-400" />,      title: "Edit Basics",  desc: "Reorder, rotate, tweak — minimal friction, instant feedback." },
-  { icon: <ShieldCheck className="h-6 w-6 text-rose-400" />,   title: "Protect",      desc: "Add passwords, redact, and sign documents with confidence." },
-  { icon: <Repeat2 className="h-6 w-6 text-violet-400" />,     title: "Automate",     desc: "Save your favorite actions and repeat them with one click." },
+/* ── Types ─────────────────────────────────────────── */
+
+type ToolStatus = "available" | "soon";
+
+interface Tool {
+  icon: LucideIcon;
+  color: string;
+  title: string;
+  desc: string;
+  status: ToolStatus;
+  ai?: boolean;
+}
+
+interface Group {
+  label: string;
+  accent: string;
+  tools: Tool[];
+}
+
+/* ── Data ───────────────────────────────────────────── */
+
+const GROUPS: Group[] = [
+  {
+    label: "Convert",
+    accent: "text-blue-500",
+    tools: [
+      { icon: FileText,   color: "text-blue-400",   title: "PDF → Word",        desc: "Editable .docx, layout preserved.",          status: "soon" },
+      { icon: Table2,     color: "text-green-400",  title: "PDF → Excel",       desc: "Tables extracted with column precision.",    status: "soon" },
+      { icon: Image,      color: "text-pink-400",   title: "PDF → JPG",         desc: "High-res page renders, one click.",          status: "soon" },
+      { icon: FileText,   color: "text-indigo-400", title: "Word → PDF",        desc: "Fonts and formatting intact.",               status: "soon" },
+      { icon: Image,      color: "text-orange-400", title: "JPG → PDF",         desc: "Multiple images into a single PDF.",         status: "soon" },
+      { icon: Monitor,    color: "text-violet-400", title: "PDF → PowerPoint",  desc: "Slides rebuilt from your PDF pages.",       status: "soon" },
+    ],
+  },
+  {
+    label: "Edit",
+    accent: "text-emerald-500",
+    tools: [
+      { icon: GitMerge,   color: "text-emerald-400", title: "Merge PDF",         desc: "Combine any number of files in seconds.",   status: "soon" },
+      { icon: Scissors,   color: "text-teal-400",    title: "Split PDF",         desc: "Extract pages or ranges with precision.",   status: "soon" },
+      { icon: RotateCw,   color: "text-cyan-400",    title: "Rotate & Reorder",  desc: "Drag, flip, rearrange pages freely.",       status: "soon" },
+      { icon: Droplets,   color: "text-sky-400",     title: "Watermark",         desc: "Text or image watermarks on every page.",   status: "soon" },
+      { icon: EyeOff,     color: "text-rose-400",    title: "Redaction",         desc: "Permanently hide sensitive text.",          status: "soon" },
+      { icon: Hash,       color: "text-amber-400",   title: "Page Numbers",      desc: "Custom style, position, and start index.",  status: "soon" },
+    ],
+  },
+  {
+    label: "Security",
+    accent: "text-rose-500",
+    tools: [
+      { icon: Lock,       color: "text-red-400",     title: "Password Protect",  desc: "AES-256 encryption, open & edit passwords.", status: "soon" },
+      { icon: Unlock,     color: "text-orange-400",  title: "Unlock PDF",        desc: "Remove passwords from your own files.",      status: "soon" },
+      { icon: PenLine,    color: "text-violet-400",  title: "E-Signature",       desc: "Draw, type, or upload your signature.",      status: "soon" },
+      { icon: Award,      color: "text-yellow-400",  title: "Digital Stamp",     desc: "Company logos and approval stamps.",         status: "soon" },
+    ],
+  },
+  {
+    label: "AI Tools",
+    accent: "text-purple-500",
+    tools: [
+      { icon: Languages,    color: "text-cyan-400",    title: "AI Translate",      desc: "DeepL-powered, 30+ languages, layout kept.", status: "available", ai: true },
+      { icon: FileSearch,   color: "text-indigo-400",  title: "AI Summarize",      desc: "Key points extracted in one paragraph.",     status: "soon",      ai: true },
+      { icon: MessageSquare,color: "text-emerald-400", title: "Chat with PDF",     desc: "Ask questions, get cited answers.",          status: "soon",      ai: true },
+      { icon: FileArchive,  color: "text-blue-400",    title: "Smart Compress",    desc: "AI picks the best quality/size balance.",    status: "available", ai: true },
+      { icon: ScanLine,     color: "text-pink-400",    title: "OCR",               desc: "Make scanned PDFs fully searchable.",        status: "soon",      ai: true },
+    ],
+  },
 ];
 
-const floatA = "features-float-a 11s ease-in-out infinite";
-const floatB = "features-float-b 13s ease-in-out infinite";
-const floatC = "features-float-c 12s ease-in-out infinite";
+/* ── Badge ──────────────────────────────────────────── */
+
+function Badge({ status, ai }: { status: ToolStatus; ai?: boolean }) {
+  if (ai && status !== "available") {
+    return (
+      <span className="ml-auto shrink-0 rounded-full bg-purple-500/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-purple-500">
+        AI
+      </span>
+    );
+  }
+  if (status === "available") {
+    return (
+      <span className="ml-auto shrink-0 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-emerald-500">
+        {ai ? "AI · Live" : "Live"}
+      </span>
+    );
+  }
+  return (
+    <span className="ml-auto shrink-0 rounded-full bg-[var(--card-border)]/60 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-[var(--muted)]">
+      Soon
+    </span>
+  );
+}
+
+/* ── Tool card ──────────────────────────────────────── */
+
+function ToolCard({ tool }: { tool: Tool }) {
+  const Icon = tool.icon;
+  const isLive = tool.status === "available";
+
+  return (
+    <div
+      className={[
+        "group relative flex flex-col gap-3 rounded-xl border p-4 text-left",
+        "bg-[var(--card-bg)] transition-all duration-200",
+        isLive
+          ? "border-[var(--brand-500)]/40 hover:border-[var(--brand-500)] hover:shadow-md hover:shadow-[var(--brand-500)]/10"
+          : "border-[var(--card-border)] hover:border-[var(--brand-500)]/50 hover:shadow-md",
+      ].join(" ")}
+    >
+      <div className="flex items-start gap-3">
+        <div className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-[color:var(--fg)]/[0.05]">
+          <Icon className={`h-4 w-4 ${tool.color}`} />
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-semibold text-[var(--fg)] leading-snug">{tool.title}</span>
+            <Badge status={tool.status} ai={tool.ai} />
+          </div>
+          <p className="mt-1 text-xs text-[var(--muted)] leading-relaxed">{tool.desc}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Section ────────────────────────────────────────── */
 
 export default function Features() {
   return (
-    <section aria-labelledby="features-title" className="relative isolate w-full min-h-[100svh] overflow-hidden flex items-center justify-center">
-      {/* ambient bg */}
+    <section
+      id="tools"
+      aria-labelledby="features-title"
+      className="relative w-full py-24 md:py-32"
+    >
+      {/* Subtle ambient gradient */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            "radial-gradient(1400px 900px at 50% 120%, color-mix(in oklab, #10b981 12%, transparent), transparent 65%), radial-gradient(1400px 900px at 50% -20%, color-mix(in oklab, var(--brand-500) 14%, transparent), transparent 65%)",
-        }}
-      />
-      {/* glass bubbles */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute left-[-80px] top-6 -z-10 h-[620px] w-[620px] rounded-[38%] blur-3xl"
-        style={{
-          background: "radial-gradient(closest-side,rgba(255,255,255,.55),rgba(255,255,255,.22),transparent)",
-          boxShadow: "0 0 180px 44px rgba(99,102,241,.10)",
-          animation: floatA,
-        }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute right-[-60px] top-24 -z-10 h-[720px] w-[720px] rounded-[40%] blur-3xl"
-        style={{
-          background: "radial-gradient(closest-side,rgba(255,255,255,.52),rgba(255,255,255,.18),transparent)",
-          boxShadow: "0 0 200px 56px rgba(16,185,129,.10)",
-          animation: floatB,
-          animationDelay: "1.2s",
-        }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute left-1/2 bottom-[-60px] -z-10 h-[700px] w-[700px] -translate-x-1/2 rounded-[42%] blur-3xl"
-        style={{
-          background: "radial-gradient(closest-side,rgba(255,255,255,.48),rgba(255,255,255,.16),transparent)",
-          boxShadow: "0 0 220px 60px rgba(99,102,241,.08)",
-          animation: floatC,
-          animationDelay: "2s",
+            "radial-gradient(1200px 600px at 50% 0%, color-mix(in oklab, var(--brand-500) 6%, transparent), transparent 70%)",
         }}
       />
 
-      <div className="container relative mx-auto max-w-6xl px-4 text-center">
-        <h2 id="features-title" className="text-balance bg-gradient-to-r from-[var(--brand-500)] to-emerald-400 bg-clip-text text-4xl font-black text-transparent md:text-5xl">
-          Tools that feel <span className="text-[color:var(--fg)]">invisible</span>
-        </h2>
-        <p className="mx-auto mt-3 max-w-2xl text-muted md:text-lg">
-          The future of document control — minimal, precise, and powered by AI.
-        </p>
+      <div className="mx-auto max-w-6xl px-4">
+        {/* Section header */}
+        <div className="text-center mb-16">
+          <h2
+            id="features-title"
+            className="text-4xl font-black tracking-tight md:text-5xl"
+          >
+            <span className="bg-gradient-to-r from-[var(--brand-500)] to-emerald-400 bg-clip-text text-transparent">
+              Every PDF tool
+            </span>{" "}
+            <span className="text-[var(--fg)]">you'll ever need</span>
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-[var(--muted)] md:text-lg">
+            Convert, edit, secure, and supercharge your documents with AI — all in one place.
+          </p>
+        </div>
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {items.map((it) => (
-            <div
-              key={it.title}
-              className="group relative overflow-hidden rounded-2xl border border-[var(--card-border)] bg-[var(--card-bg)]/70 p-6 text-left shadow-sm backdrop-blur-sm transition-all duration-400 hover:shadow-lg"
-            >
-              <div className="flex items-center gap-3">
-                <div className="grid h-12 w-12 place-items-center rounded-full bg-[color:var(--fg)]/[0.05] ring-1 ring-[color:var(--card-border)]/80 backdrop-blur-sm">
-                  {it.icon}
-                </div>
-                <h3 className="text-base font-semibold">{it.title}</h3>
+        {/* Tool groups */}
+        <div className="space-y-14">
+          {GROUPS.map((group) => (
+            <div key={group.label}>
+              {/* Group label */}
+              <div className="flex items-center gap-3 mb-5">
+                <h3 className={`text-xs font-bold uppercase tracking-widest ${group.accent}`}>
+                  {group.label}
+                </h3>
+                <div className="h-px flex-1 bg-[var(--card-border)]" />
               </div>
-              <p className="mt-3 text-sm text-muted">{it.desc}</p>
-              <div className="mt-5 h-[2px] w-0 bg-[var(--brand-500)] transition-all duration-400 group-hover:w-1/3" />
+
+              {/* Cards grid */}
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {group.tools.map((tool) => (
+                  <ToolCard key={tool.title} tool={tool} />
+                ))}
+              </div>
             </div>
           ))}
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes features-float-a { 0%,100%{transform:translate3d(0,0,0)} 50%{transform:translate3d(0,-20px,0)} }
-        @keyframes features-float-b { 0%,100%{transform:translate3d(0,0,0)} 50%{transform:translate3d(0,-24px,0)} }
-        @keyframes features-float-c { 0%,100%{transform:translate3d(-50%,0,0)} 50%{transform:translate3d(-50%,-22px,0)} }
-      `}</style>
     </section>
   );
 }
