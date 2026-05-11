@@ -157,15 +157,78 @@ export default function Features() {
       aria-labelledby="features-title"
       className="relative w-full py-24 md:py-32"
     >
-      {/* Subtle ambient gradient */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10"
-        style={{
-          background:
-            "radial-gradient(1200px 600px at 50% 0%, color-mix(in oklab, var(--brand-500) 6%, transparent), transparent 70%)",
-        }}
-      />
+      {/* ── Background (mirrors hero) ─────────────────── */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-30 overflow-hidden">
+        {/* Dot grid */}
+        <div
+          className="absolute inset-0 opacity-[0.35] dark:opacity-[0.15]"
+          style={{
+            backgroundImage: "radial-gradient(circle, var(--brand-500) 1px, transparent 1px)",
+            backgroundSize: "36px 36px",
+          }}
+        />
+        {/* Edge vignette */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 80% 70% at 50% 50%, transparent 40%, var(--bg) 100%)",
+          }}
+        />
+      </div>
+
+      {/* Animated blobs */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-20 overflow-hidden">
+        {/* Teal — top-left */}
+        <div
+          className="absolute w-[600px] h-[600px] rounded-full opacity-[0.16] dark:opacity-[0.10]"
+          style={{
+            top: "-10%", left: "-8%",
+            background: "radial-gradient(circle at center, #10b981 0%, transparent 70%)",
+            filter: "blur(80px)",
+            animation: "fblob-a 18s ease-in-out infinite",
+          }}
+        />
+        {/* Blue — top-right */}
+        <div
+          className="absolute w-[700px] h-[700px] rounded-full opacity-[0.15] dark:opacity-[0.10]"
+          style={{
+            top: "-15%", right: "-10%",
+            background: "radial-gradient(circle at center, #327fff 0%, transparent 70%)",
+            filter: "blur(72px)",
+            animation: "fblob-b 16s ease-in-out infinite",
+            animationDelay: "3s",
+          }}
+        />
+        {/* Purple — center-bottom */}
+        <div
+          className="absolute w-[700px] h-[500px] rounded-full opacity-[0.09] dark:opacity-[0.07]"
+          style={{
+            bottom: "5%", left: "50%", transform: "translateX(-50%)",
+            background: "radial-gradient(circle at center, #8b5cf6 0%, transparent 70%)",
+            filter: "blur(90px)",
+            animation: "fblob-c 20s ease-in-out infinite",
+            animationDelay: "6s",
+          }}
+        />
+      </div>
+
+      <style jsx>{`
+        @keyframes fblob-a {
+          0%,100% { transform: translate(0,0) scale(1); }
+          40%     { transform: translate(40px,50px) scale(1.08); }
+          70%     { transform: translate(-20px,20px) scale(0.95); }
+        }
+        @keyframes fblob-b {
+          0%,100% { transform: translate(0,0) scale(1); }
+          35%     { transform: translate(-50px,30px) scale(1.1); }
+          65%     { transform: translate(20px,-30px) scale(0.93); }
+        }
+        @keyframes fblob-c {
+          0%,100% { transform: translateX(-50%) scale(1); }
+          50%     { transform: translateX(-50%) scale(1.12); }
+        }
+      `}</style>
 
       <div className="mx-auto max-w-6xl px-4">
         {/* Section header */}
