@@ -7,9 +7,9 @@ import { Moon, Sun, User, LogOut, Menu, X } from "lucide-react";
 import { useAuth } from "@/components/auth-provider";
 
 const NAV_LINKS = [
-  { label: "Nástroje", href: "/#tools" },
-  { label: "Cenník", href: "/#pricing" },
-  { label: "O nás", href: "/about" },
+  { label: "Tools", href: "/#tools" },
+  { label: "Pricing", href: "/#pricing" },
+  { label: "About", href: "/about" },
 ];
 
 function ThemeToggle() {
@@ -29,7 +29,7 @@ function ThemeToggle() {
   return (
     <button
       onClick={toggle}
-      aria-label="Prepnúť tému"
+      aria-label="Toggle theme"
       className="p-2 rounded-full hover:bg-[var(--card-bg)] transition-colors duration-200"
     >
       {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
@@ -95,7 +95,7 @@ export default function MegaNav() {
         {/* Logo */}
         <button
           onClick={handleLogoClick}
-          aria-label="Prejsť na úvodnú stránku"
+          aria-label="Go to homepage"
           className="text-lg font-bold tracking-tight text-[var(--fg)] hover:opacity-80 transition-opacity"
         >
           PDF<span className="text-[var(--brand-500)]">lex</span>
@@ -132,7 +132,7 @@ export default function MegaNav() {
                 className="hidden sm:flex items-center gap-1.5 text-sm text-red-500 hover:text-red-600 transition-colors px-3 py-1.5"
               >
                 <LogOut className="w-4 h-4" />
-                Odhlásiť
+                Sign out
               </button>
             </>
           ) : (
@@ -141,13 +141,13 @@ export default function MegaNav() {
                 href="/login"
                 className="hidden sm:inline-flex items-center text-sm font-medium text-[var(--fg)] border border-[var(--card-border)] hover:border-[var(--brand-500)] hover:text-[var(--brand-500)] transition-all duration-200 px-3.5 py-1.5 rounded-full"
               >
-                Prihlásiť sa
+                Sign in
               </Link>
               <Link
                 href="/register"
                 className="inline-flex items-center text-sm font-semibold bg-[var(--brand-500)] hover:bg-[var(--brand-600)] text-white px-4 py-1.5 rounded-full transition-colors duration-200 shadow-sm"
               >
-                Vyskúšať zdarma
+                Try for free
               </Link>
             </>
           )}
@@ -185,7 +185,7 @@ export default function MegaNav() {
               href="/login"
               className="mt-2 py-2 text-sm font-medium text-[var(--muted)] hover:text-[var(--fg)] transition-colors"
             >
-              Prihlásiť sa
+              Sign in
             </Link>
           )}
           {user && (
@@ -197,7 +197,7 @@ export default function MegaNav() {
                 onClick={handleLogout}
                 className="py-2 text-sm text-left text-red-500"
               >
-                Odhlásiť sa
+                Sign out
               </button>
             </>
           )}
