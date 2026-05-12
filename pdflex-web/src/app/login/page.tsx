@@ -42,176 +42,176 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
-    <section
-      aria-labelledby="login-title"
-      className="relative isolate min-h-[100svh] overflow-hidden flex items-center justify-center px-4 py-16 bg-white"
-    >
-      <MegaNav />
+    <div className="min-h-screen bg-white dark:bg-gray-950">
+      <section
+        aria-labelledby="login-title"
+        className="relative isolate min-h-[100svh] overflow-hidden flex items-center justify-center px-4 py-16 bg-white dark:bg-gray-950"
+      >
+        <MegaNav />
 
-      {/* Dot grid */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-30">
-        <div
-          className="absolute inset-0 opacity-[0.25]"
-          style={{
-            backgroundImage: "radial-gradient(circle, #327fff 1px, transparent 1px)",
-            backgroundSize: "36px 36px",
-          }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{ background: "radial-gradient(ellipse 80% 70% at 50% 50%, transparent 40%, #f8fafc 100%)" }}
-        />
-      </div>
-
-      {/* Blobs */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-20 overflow-hidden">
-        <div
-          className="absolute w-[600px] h-[600px] rounded-full opacity-[0.22]"
-          style={{ top: "-15%", left: "-10%", background: "radial-gradient(circle at center, #327fff 0%, transparent 70%)", filter: "blur(72px)", animation: "auth-blob-a 16s ease-in-out infinite" }}
-        />
-        <div
-          className="absolute w-[500px] h-[500px] rounded-full opacity-[0.18]"
-          style={{ bottom: "-10%", right: "-8%", background: "radial-gradient(circle at center, #10b981 0%, transparent 70%)", filter: "blur(80px)", animation: "auth-blob-b 20s ease-in-out infinite", animationDelay: "3s" }}
-        />
-        <div
-          className="absolute w-[400px] h-[400px] rounded-full opacity-[0.12]"
-          style={{ top: "40%", right: "20%", background: "radial-gradient(circle at center, #8b5cf6 0%, transparent 70%)", filter: "blur(90px)", animation: "auth-blob-a 24s ease-in-out infinite", animationDelay: "8s" }}
-        />
-      </div>
-
-      <div className="w-full max-w-md">
-        {/* Logo */}
-        <div className="mb-6 text-center">
-          <Link href="/" className="inline-block text-2xl font-black tracking-tight text-slate-900 hover:opacity-75 transition-opacity">
-            PDF<span className="text-[var(--brand-500)]">lex</span>
-          </Link>
+        {/* Dot grid */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-30">
+          <div
+            className="absolute inset-0 opacity-[0.18] dark:opacity-[0.08]"
+            style={{
+              backgroundImage: "radial-gradient(circle, #327fff 1px, transparent 1px)",
+              backgroundSize: "36px 36px",
+            }}
+          />
+          <div
+            className="absolute inset-0"
+            style={{ background: "radial-gradient(ellipse 80% 70% at 50% 50%, transparent 40%, white 100%)" }}
+          />
         </div>
 
-        {/* Card */}
-        <div className="rounded-3xl border border-slate-200 bg-white shadow-xl shadow-slate-900/[0.07] p-8">
-          <header className="text-center mb-7">
-            <h1 id="login-title" className="text-3xl font-black tracking-tight text-slate-900">
-              Welcome back
-            </h1>
-            <p className="mt-2 text-sm text-slate-500">Sign in to your PDFlex account</p>
-          </header>
+        {/* Blobs */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-20 overflow-hidden">
+          <div
+            className="absolute w-[600px] h-[600px] rounded-full opacity-[0.18] dark:opacity-[0.12]"
+            style={{ top: "-15%", left: "-10%", background: "radial-gradient(circle at center, #327fff 0%, transparent 70%)", filter: "blur(72px)", animation: "auth-blob-a 16s ease-in-out infinite" }}
+          />
+          <div
+            className="absolute w-[500px] h-[500px] rounded-full opacity-[0.14] dark:opacity-[0.10]"
+            style={{ bottom: "-10%", right: "-8%", background: "radial-gradient(circle at center, #10b981 0%, transparent 70%)", filter: "blur(80px)", animation: "auth-blob-b 20s ease-in-out infinite", animationDelay: "3s" }}
+          />
+          <div
+            className="absolute w-[400px] h-[400px] rounded-full opacity-[0.08] dark:opacity-[0.07]"
+            style={{ top: "40%", right: "20%", background: "radial-gradient(circle at center, #8b5cf6 0%, transparent 70%)", filter: "blur(90px)", animation: "auth-blob-a 24s ease-in-out infinite", animationDelay: "8s" }}
+          />
+        </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {info && (
-              <div className="flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2.5 text-sm text-emerald-700">
-                <CheckCircle2 className="h-4 w-4 shrink-0" />{info}
-              </div>
-            )}
+        <div className="w-full max-w-md">
+          {/* Logo */}
+          <div className="mb-6 text-center">
+            <Link href="/" className="inline-block text-2xl font-black tracking-tight text-slate-900 dark:text-white hover:opacity-75 transition-opacity">
+              PDF<span className="text-[var(--brand-500)]">lex</span>
+            </Link>
+          </div>
 
-            {/* Email */}
-            <div>
-              <label htmlFor="email" className="mb-1.5 flex items-center gap-1.5 text-sm font-medium text-slate-700">
-                <Mail className="h-3.5 w-3.5 text-slate-400" /> Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@example.com"
-                autoComplete="email"
-                required
-                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 shadow-sm transition-all duration-200 focus:border-[var(--brand-500)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-500)]/20"
-              />
-            </div>
+          {/* Card */}
+          <div className="rounded-3xl border border-slate-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-xl shadow-slate-900/[0.07] dark:shadow-black/40 p-8">
+            <header className="text-center mb-7">
+              <h1 id="login-title" className="text-3xl font-black tracking-tight text-slate-900 dark:text-white">
+                Welcome back
+              </h1>
+              <p className="mt-2 text-sm text-slate-500 dark:text-gray-400">Sign in to your PDFlex account</p>
+            </header>
 
-            {/* Password */}
-            <div>
-              <div className="mb-1.5 flex items-center justify-between">
-                <label htmlFor="password" className="flex items-center gap-1.5 text-sm font-medium text-slate-700">
-                  <Lock className="h-3.5 w-3.5 text-slate-400" /> Password
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {info && (
+                <div className="flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 dark:border-emerald-800 dark:bg-emerald-900/20 px-3 py-2.5 text-sm text-emerald-700 dark:text-emerald-300">
+                  <CheckCircle2 className="h-4 w-4 shrink-0" />{info}
+                </div>
+              )}
+
+              {/* Email */}
+              <div>
+                <label htmlFor="email" className="mb-1.5 flex items-center gap-1.5 text-sm font-medium text-slate-700 dark:text-gray-300">
+                  <Mail className="h-3.5 w-3.5 text-slate-400 dark:text-gray-500" /> Email
                 </label>
-                <Link href="/reset-password" className="text-xs text-slate-400 hover:text-[var(--brand-500)] transition-colors duration-200">
-                  Forgot password?
-                </Link>
-              </div>
-              <div className="relative">
                 <input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  autoComplete="current-password"
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@example.com"
+                  autoComplete="email"
                   required
-                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 pr-11 text-sm text-slate-900 placeholder:text-slate-400 shadow-sm transition-all duration-200 focus:border-[var(--brand-500)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-500)]/20"
+                  className="w-full rounded-xl border border-slate-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-4 py-3 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-gray-500 shadow-sm transition-all duration-200 focus:border-[var(--brand-500)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-500)]/20"
                 />
-                <button
-                  type="button"
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition-colors"
-                  onMouseDown={() => setShowPassword(true)}
-                  onMouseUp={() => setShowPassword(false)}
-                  onMouseLeave={() => setShowPassword(false)}
-                  onTouchStart={() => setShowPassword(true)}
-                  onTouchEnd={() => setShowPassword(false)}
-                  tabIndex={-1}
-                  aria-label="Hold to show password"
-                >
-                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                </button>
               </div>
-            </div>
 
-            {error && (
-              <div className="rounded-xl border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-600">
-                {error}
+              {/* Password */}
+              <div>
+                <div className="mb-1.5 flex items-center justify-between">
+                  <label htmlFor="password" className="flex items-center gap-1.5 text-sm font-medium text-slate-700 dark:text-gray-300">
+                    <Lock className="h-3.5 w-3.5 text-slate-400 dark:text-gray-500" /> Password
+                  </label>
+                  <Link href="/reset-password" className="text-xs text-slate-400 dark:text-gray-500 hover:text-[var(--brand-500)] transition-colors duration-200">
+                    Forgot password?
+                  </Link>
+                </div>
+                <div className="relative">
+                  <input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    autoComplete="current-password"
+                    required
+                    className="w-full rounded-xl border border-slate-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-4 py-3 pr-11 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-gray-500 shadow-sm transition-all duration-200 focus:border-[var(--brand-500)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-500)]/20"
+                  />
+                  <button
+                    type="button"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-gray-500 hover:text-slate-700 dark:hover:text-gray-200 transition-colors"
+                    onMouseDown={() => setShowPassword(true)}
+                    onMouseUp={() => setShowPassword(false)}
+                    onMouseLeave={() => setShowPassword(false)}
+                    onTouchStart={() => setShowPassword(true)}
+                    onTouchEnd={() => setShowPassword(false)}
+                    tabIndex={-1}
+                    aria-label="Hold to show password"
+                  >
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
               </div>
-            )}
 
-            {/* Submit */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full rounded-xl bg-gradient-to-r from-[var(--brand-500)] to-[var(--brand-600)] py-3 text-sm font-semibold text-white shadow-md shadow-[var(--brand-500)]/25 transition-all duration-200 hover:brightness-110 hover:scale-[1.01] disabled:opacity-60 disabled:cursor-not-allowed"
-            >
-              {loading ? (
-                <span className="inline-flex items-center justify-center gap-2">
-                  <Loader2 className="h-4 w-4 animate-spin" /> Signing in…
-                </span>
-              ) : "Sign in"}
-            </button>
+              {error && (
+                <div className="rounded-xl border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20 px-3 py-2.5 text-sm text-red-600 dark:text-red-300">
+                  {error}
+                </div>
+              )}
 
-            {/* Divider */}
-            <div className="relative my-2">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-slate-200" />
+              {/* Submit */}
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full rounded-xl bg-gradient-to-r from-[var(--brand-500)] to-[var(--brand-600)] py-3 text-sm font-semibold text-white shadow-md shadow-[var(--brand-500)]/25 transition-all duration-200 hover:brightness-110 hover:scale-[1.01] disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {loading ? (
+                  <span className="inline-flex items-center justify-center gap-2">
+                    <Loader2 className="h-4 w-4 animate-spin" /> Signing in…
+                  </span>
+                ) : "Sign in"}
+              </button>
+
+              {/* Divider */}
+              <div className="relative my-2">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-slate-200 dark:border-gray-700" />
+                </div>
+                <div className="relative flex justify-center">
+                  <span className="bg-white dark:bg-gray-900 px-3 text-xs text-slate-400 dark:text-gray-500">or continue with</span>
+                </div>
               </div>
-              <div className="relative flex justify-center">
-                <span className="bg-white px-3 text-xs text-slate-400">or continue with</span>
-              </div>
-            </div>
 
-            {/* Social placeholder */}
-            <button
-              type="button"
-              disabled
-              className="w-full rounded-xl border border-slate-200 py-3 text-sm font-medium text-slate-400 transition-colors hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed"
-            >
-              Google — coming soon
-            </button>
-          </form>
+              {/* Social placeholder */}
+              <button
+                type="button"
+                disabled
+                className="w-full rounded-xl border border-slate-200 dark:border-gray-700 py-3 text-sm font-medium text-slate-400 dark:text-gray-500 transition-colors hover:bg-slate-50 dark:hover:bg-gray-800 disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                Google — coming soon
+              </button>
+            </form>
+          </div>
+
+          {/* Below card */}
+          <p className="mt-5 text-center text-sm text-slate-500 dark:text-gray-400">
+            Don't have an account?{" "}
+            <Link href="/register" className="font-semibold text-[var(--brand-500)] hover:underline transition-colors">
+              Create one →
+            </Link>
+          </p>
         </div>
 
-        {/* Below card */}
-        <p className="mt-5 text-center text-sm text-slate-500">
-          Don't have an account?{" "}
-          <Link href="/register" className="font-semibold text-[var(--brand-500)] hover:underline transition-colors">
-            Create one →
-          </Link>
-        </p>
-      </div>
-
-      <style jsx>{`
-        @keyframes auth-blob-a { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(30px,40px) scale(1.08)} }
-        @keyframes auth-blob-b { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-30px,-30px) scale(1.06)} }
-      `}</style>
-    </section>
+        <style jsx>{`
+          @keyframes auth-blob-a { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(30px,40px) scale(1.08)} }
+          @keyframes auth-blob-b { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-30px,-30px) scale(1.06)} }
+        `}</style>
+      </section>
     </div>
   );
 }
