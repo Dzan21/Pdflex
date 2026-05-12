@@ -44,35 +44,25 @@ export default function MegaNav() {
 
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [ready, setReady] = useState(false);
 
   const isDashboard = pathname?.startsWith("/dashboard");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
-    const onResize = () => { setIsMobile(window.innerWidth <= 768); setReady(true); };
-    onResize();
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onResize);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onResize);
-    };
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => { setMobileOpen(false); }, [pathname]);
 
   const handleLogout = async () => {
     await logout();
-    if (!ready) return;
-    router.push(isMobile ? "/m" : "/");
+    router.push("/");
   };
 
   const handleLogoClick = () => {
-    if (!ready) return;
-    router.push(isMobile ? "/m" : "/");
+    router.push("/");
   };
 
   if (isDashboard) return null;
@@ -86,8 +76,8 @@ export default function MegaNav() {
         scrolled ? "shadow-sm shadow-black/[0.06]" : "shadow-none",
       ].join(" ")}
     >
-      {/* 3-column grid: logo | nav | buttons */}
-      <div className="mx-auto max-w-6xl px-4 h-16 grid grid-cols-3 items-center">
+      {/* flex row: logo | nav (desktop) | buttons */}
+      <div className="mx-auto max-w-6xl px-4 h-16 flex items-center justify-between gap-4">
 
         {/* LEFT — Logo */}
         <div className="flex items-center">
@@ -162,36 +152,79 @@ export default function MegaNav() {
         </div>
       </div>
 
-      {/* Mobile dropdown */}
+      {/* Mobile fullscreen overlay */}
       <div
         className={[
-          "md:hidden overflow-hidden transition-all duration-300",
-          "bg-white/95 dark:bg-[#0f172a]/95 backdrop-blur-md border-b border-[var(--card-border)]",
-          mobileOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0",
+          "md:hidden fixed inset-0 z-40 flex flex-col",
+          "bg-white dark:bg-[#0f172a]",
+          "transition-all duration-300 ease-in-out",
+          mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
         ].join(" ")}
+        style={{ top: 0 }}
+        aria-hidden={!mobileOpen}
       >
-        <nav className="flex flex-col px-4 py-3 gap-1">
+        {/* Overlay header — mirrors navbar height */}
+        <div className="h-16 flex items-center justify-between px-4 border-b border-[var(--card-border)]">
+          <button
+            onClick={handleLogoClick}
+            aria-label="Go to homepage"
+            className="text-lg font-bold tracking-tight text-[var(--fg)]"
+          >
+            PDF<span className="text-[var(--brand-500)]">lex</span>
+          </button>
+          <button
+            onClick={() => setMobileOpen(false)}
+            aria-label="Close menu"
+            className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+
+        {/* Nav links */}
+        <nav className="flex flex-col px-6 pt-6 gap-1 flex-1">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="py-2 text-sm font-medium text-[var(--muted)] hover:text-[var(--fg)] transition-colors"
+              className="py-3 text-xl font-semibold text-[var(--fg)] border-b border-[var(--card-border)] hover:text-[var(--brand-500)] transition-colors"
             >
               {link.label}
             </Link>
           ))}
-          {!user && (
-            <Link href="/login" className="mt-2 py-2 text-sm font-medium text-[var(--muted)] hover:text-[var(--fg)] transition-colors">
-              Sign in
+          {user && (
+            <Link href="/dashboard" className="py-3 text-xl font-semibold text-[var(--fg)] border-b border-[var(--card-border)] hover:text-[var(--brand-500)] transition-colors">
+              Dashboard
             </Link>
           )}
-          {user && (
+        </nav>
+
+        {/* Auth buttons at bottom */}
+        <div className="px-6 pb-10 flex flex-col gap-3">
+          {user ? (
+            <button
+              onClick={handleLogout}
+              className="w-full py-3 rounded-full border border-red-200 dark:border-red-800 text-sm font-semibold text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+            >
+              Sign out
+            </button>
+          ) : (
             <>
-              <Link href="/dashboard" className="py-2 text-sm font-medium text-[var(--muted)]">Dashboard</Link>
-              <button onClick={handleLogout} className="py-2 text-sm text-left text-red-500">Sign out</button>
+              <Link
+                href="/dashboard"
+                className="w-full py-3 rounded-full text-center text-sm font-semibold bg-[var(--brand-500)] hover:bg-[var(--brand-600)] text-white transition-colors shadow-sm"
+              >
+                Try for free
+              </Link>
+              <Link
+                href="/login"
+                className="w-full py-3 rounded-full text-center text-sm font-semibold border border-[var(--card-border)] text-[var(--fg)] hover:border-[var(--brand-500)] hover:text-[var(--brand-500)] transition-colors"
+              >
+                Sign in
+              </Link>
             </>
           )}
-        </nav>
+        </div>
       </div>
     </header>
   );
