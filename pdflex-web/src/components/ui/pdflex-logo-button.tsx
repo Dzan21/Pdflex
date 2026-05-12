@@ -1,30 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function PDFlexLogoButton() {
-  const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
-
-  useEffect(() => {
-    const checkMobile = () => {
-      if (typeof window !== "undefined") {
-        setIsMobile(window.innerWidth <= 768);
-      }
-    };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
-  const handleClick = () => {
-    router.push(isMobile ? "/m" : "/");
-  };
 
   return (
     <button
-      onClick={handleClick}
+      onClick={() => router.push("/")}
       className="group inline-flex items-center gap-2"
       aria-label="Prejsť na domov"
     >

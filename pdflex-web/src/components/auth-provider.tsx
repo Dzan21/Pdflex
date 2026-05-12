@@ -113,15 +113,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       localStorage.removeItem("pdflex_access_token");
       setUser(null);
 
-      // Presmerovanie podľa zariadenia
-      const isMobile =
-        typeof window !== "undefined" &&
-        /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(
-          navigator.userAgent
-        );
-
-      const redirectTo = isMobile ? "/m" : "/";
-      window.location.href = redirectTo;
+      window.location.href = "/";
     }
   }, []);
 

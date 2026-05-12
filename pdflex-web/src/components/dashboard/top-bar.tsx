@@ -9,23 +9,11 @@ import { useEffect, useState } from "react";
 export default function DashboardTopBar() {
   const [open, setOpen] = useState(false);
   const [dark, setDark] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
   const { user, logout } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    const isDark = document.documentElement.classList.contains("dark");
-    setDark(isDark);
-
-    // 🔁 Mobil detekcia cez screen width
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    handleResize(); // run hneď po mountnutí
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
+    setDark(document.documentElement.classList.contains("dark"));
   }, []);
 
   const toggleTheme = () => {
@@ -37,11 +25,11 @@ export default function DashboardTopBar() {
 
   const handleLogout = async () => {
     await logout();
-    router.push(isMobile ? "/m" : "/");
+    router.push("/");
   };
 
   const handleLogoClick = () => {
-    router.push(isMobile ? "/m" : "/");
+    router.push("/");
   };
 
   return (
