@@ -299,7 +299,7 @@ export default function Pricing() {
         </div>
 
         {/* Cards */}
-        <div className="grid gap-6 lg:grid-cols-3 items-center">
+        <div className="grid gap-6 md:grid-cols-3 items-start">
           {PLANS.map((plan, pi) => (
             <div
               key={plan.id}

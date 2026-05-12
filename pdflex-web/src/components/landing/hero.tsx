@@ -128,7 +128,7 @@ export default function Hero() {
           {/* Heading */}
           <h1
             id="hero-title"
-            className="mx-auto max-w-3xl text-balance text-5xl font-black tracking-tight md:text-6xl lg:text-7xl leading-tight"
+            className="mx-auto max-w-3xl text-balance text-4xl font-black tracking-tight sm:text-5xl md:text-6xl lg:text-7xl leading-tight"
           >
             <span className="bg-gradient-to-r from-[var(--brand-500)] via-[color:var(--fg)] to-emerald-400 bg-clip-text text-transparent block">
               <StaggerLine words={["Smarter", "PDFs."]} baseDelay={0.2} />
@@ -188,6 +188,7 @@ export default function Hero() {
             <Chip icon={<Zap className="h-4 w-4 text-yellow-400" />} text="Fast & reliable" />
             <Divider />
             <Chip icon={<Cpu className="h-4 w-4 text-[var(--brand-500)]" />} text="AI-powered" />
+
           </div>
         </div>
       </div>
@@ -230,5 +231,5 @@ function Chip({ icon, text }: { icon: React.ReactNode; text: string }) {
 }
 
 function Divider() {
-  return <span className="h-3 w-px bg-[var(--card-border)]/60" />;
+  return <span className="hidden sm:block h-3 w-px bg-[var(--card-border)]/60" />;
 }

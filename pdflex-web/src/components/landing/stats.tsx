@@ -59,9 +59,9 @@ function Stat({ value, suffix, label, sublabel, active, delay, accent }: StatPro
         transform: visible ? "translateY(0)" : "translateY(24px)",
       }}
     >
-      <div className={`text-6xl font-black tracking-tight md:text-7xl ${accent}`}>
+      <div className={`text-5xl font-black tracking-tight sm:text-6xl md:text-7xl ${accent}`}>
         {count.toLocaleString()}
-        <span className="text-5xl md:text-6xl">{suffix}</span>
+        <span className="text-4xl sm:text-5xl md:text-6xl">{suffix}</span>
       </div>
       <div className="mt-3 text-lg font-semibold text-[var(--fg)]">{label}</div>
       <div className="mt-1 text-sm text-[var(--muted)]">{sublabel}</div>
@@ -169,7 +169,7 @@ export default function Stats() {
         </div>
 
         {/* Stats grid */}
-        <div className="grid gap-12 sm:grid-cols-3">
+        <div className="grid gap-10 sm:gap-6 sm:grid-cols-3">
           {STATS.map((s) => (
             <Stat key={s.label} {...s} active={active} />
           ))}
