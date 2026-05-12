@@ -2,7 +2,7 @@
   "name": "pdflex",
   "private": true,
   "scripts": {
-    "dev": "concurrently --kill-others-on-fail \"cd pdflex-auth && pnpm dev\" \"cd pdflex-web && pnpm dev\"",
+    "dev": "concurrently --kill-others-on-fail \"pnpm --filter pdflex-auth dev\" \"pnpm --filter pdflex-web dev\"",
     "build": "pnpm --filter pdflex-web build",
     "auth": "pnpm --filter pdflex-auth dev",
     "web": "pnpm --filter pdflex-web dev"
