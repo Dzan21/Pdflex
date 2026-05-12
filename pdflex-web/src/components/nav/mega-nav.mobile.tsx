@@ -80,8 +80,8 @@ export default function MegaNavMobile() {
           </div>
 
           <nav className="flex flex-col gap-4 mt-4">
-            <a href="/#features" onClick={() => setOpen(false)}>Funkcie</a>
-            <a href="/#cta" onClick={() => setOpen(false)}>Cenník</a>
+            <Link href="/#features" onClick={() => setOpen(false)}>Funkcie</Link>
+            <Link href="/#cta" onClick={() => setOpen(false)}>Cenník</Link>
             <Link href="/navod" onClick={() => setOpen(false)}>Návod</Link>
           </nav>
 

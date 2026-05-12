@@ -9,6 +9,14 @@ import { useAuth } from "@/components/auth-provider";
 import MegaNav from "@/components/mega-nav";
 
 export default function LoginPage() {
+  return (
+    <React.Suspense>
+      <LoginForm />
+    </React.Suspense>
+  );
+}
+
+function LoginForm() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);

@@ -4,6 +4,9 @@ export const API_BASE_URL =
   (process.env.NEXT_PUBLIC_API_URL?.replace(/\/+$/, "") as string) ||
   "http://localhost:4000";
 
+/** Alias — prefer API_BASE_URL in new code */
+export const API_BASE = API_BASE_URL;
+
 /* ============================================================= */
 /* ====================== CORE HELPERS ========================= */
 /* ============================================================= */
@@ -52,6 +55,9 @@ export async function api<T = any>(
 
   return (await tryJson(res)) as T;
 }
+
+/** Alias for api() — prefer api() in new code */
+export const apiJSON = api;
 
 /* ============================================================= */
 /* ======================== SAFE GET =========================== */
