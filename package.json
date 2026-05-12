@@ -1,0 +1,13 @@
+{
+  "name": "pdflex",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"pnpm --filter pdflex-auth dev\" \"pnpm --filter pdflex-web dev\"",
+    "build": "pnpm --filter pdflex-web build",
+    "auth": "pnpm --filter pdflex-auth dev",
+    "web": "pnpm --filter pdflex-web dev"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}
