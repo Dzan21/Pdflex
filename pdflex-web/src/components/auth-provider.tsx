@@ -10,6 +10,9 @@ export type MeUser = {
   name?: string | null;
   isEmailVerified?: boolean;
   createdAt?: string;
+  charityChoice?: string | null;
+  totalContributed?: number;
+  contributionMonths?: number;
 };
 
 type AuthContextShape = {

@@ -14,10 +14,13 @@ model User {
   email            String         @unique
   passwordHash     String
   name             String?
-  isEmailVerified  Boolean        @default(false)
-  stripeCustomerId String?
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
+  isEmailVerified    Boolean        @default(false)
+  stripeCustomerId   String?
+  charityChoice      String?        @default("ocean-cleanup")
+  totalContributed   Float          @default(0)
+  contributionMonths Int            @default(0)
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
 
   refreshTokens    RefreshToken[]
   emailTokens      EmailToken[]

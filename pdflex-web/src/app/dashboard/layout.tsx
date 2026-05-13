@@ -2,6 +2,8 @@
 import type { Metadata } from "next";
 import DashboardTopBar from "@/components/dashboard/top-bar";
 import DashboardSidebar from "@/components/dashboard/sidebar";
+import { ToolDrawerProvider } from "@/components/dashboard/tool-drawer-context";
+import { ToolDrawer } from "@/components/dashboard/ToolDrawer";
 
 export const metadata: Metadata = {
   title: "PDFlex • Dashboard",
@@ -15,19 +17,27 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-[var(--bg)] text-[var(--fg)] transition-colors duration-300">
-      {/* Sidebar — desktop only (md+) */}
-      <DashboardSidebar />
+    <ToolDrawerProvider>
+      <div
+        className="min-h-screen"
+        style={{ background: "var(--dash-bg)", color: "var(--dash-fg)" }}
+      >
+        {/* Sidebar — desktop only (md+) */}
+        <DashboardSidebar />
 
-      {/* Top bar — mobile only (hidden md+) */}
-      <div className="md:hidden">
-        <DashboardTopBar />
+        {/* Top bar — mobile only */}
+        <div className="md:hidden">
+          <DashboardTopBar />
+        </div>
+
+        {/* Main content */}
+        <main className="md:ml-[240px] flex-1 px-4 pb-16 pt-20 md:pt-8 sm:px-6 max-w-full">
+          {children}
+        </main>
+
+        {/* Right-side tool drawer (renders portal-style above everything) */}
+        <ToolDrawer />
       </div>
-
-      {/* Main content — offset by sidebar on desktop, by topbar on mobile */}
-      <main className="md:ml-[240px] flex-1 px-3 pb-12 pt-20 md:pt-8 sm:px-5 max-w-full">
-        {children}
-      </main>
-    </div>
+    </ToolDrawerProvider>
   );
 }

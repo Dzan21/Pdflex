@@ -226,9 +226,33 @@ router.get("/me", requireAuth, async (req: AuthRequest, res) => {
   try {
     const user = await prisma.user.findUnique({
       where: { id: req.user!.id },
-      select: { id: true, email: true, name: true, isEmailVerified: true, createdAt: true },
+      select: {
+        id: true, email: true, name: true, isEmailVerified: true, createdAt: true,
+        charityChoice: true, totalContributed: true, contributionMonths: true,
+      },
     });
     return res.json({ user });
+  } catch (err) {
+    logger.error({ err }, "Request error");
+    return res.status(500).json({ error: "Server error" });
+  }
+});
+
+// PATCH /me/charity — update charity choice
+const VALID_CHARITIES = ["ocean-cleanup", "tree-nation", "water-org", "food-banks"] as const;
+
+router.patch("/me/charity", requireAuth, async (req: AuthRequest, res) => {
+  try {
+    const { charityChoice } = req.body as { charityChoice?: string };
+    if (!charityChoice || !(VALID_CHARITIES as readonly string[]).includes(charityChoice)) {
+      return res.status(400).json({ error: "Invalid charityChoice. Accepted: " + VALID_CHARITIES.join(", ") });
+    }
+    const updated = await prisma.user.update({
+      where: { id: req.user!.id },
+      data: { charityChoice },
+      select: { id: true, charityChoice: true, totalContributed: true, contributionMonths: true },
+    });
+    return res.json({ user: updated });
   } catch (err) {
     logger.error({ err }, "Request error");
     return res.status(500).json({ error: "Server error" });
