@@ -1,4 +1,7 @@
 import nodemailer from "nodemailer";
+import pino from "pino";
+
+const logger = pino({ name: "pdflex-email", level: process.env.LOG_LEVEL || "info" });
 
 const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY || "";
 const FROM_EMAIL = process.env.FROM_EMAIL || "no-reply@pdflex.local";
@@ -43,9 +46,9 @@ export async function sendEmail(to: string, subject: string, html: string, text?
 
   const preview = (nodemailer as any).getTestMessageUrl?.(info);
   if (preview) {
-    console.log(`📬 Ethereal preview: ${preview}`);
+    logger.info({ preview }, "Ethereal preview URL");
   }
 
-  console.log(`✉️  Email sent to ${to} (id: ${info.messageId})`);
+  logger.info({ to, messageId: info.messageId }, "Email sent");
   return info;
 }

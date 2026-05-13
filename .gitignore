@@ -36,3 +36,23 @@ pnpm-debug.log*
 # local services
 _minio-data/
 docker-data/
+
+# Claude Code worktrees
+.claude/
+
+# sensitive / dev-only files
+access.txt
+cookies.txt
+cors.json
+cors.xml
+dev.sh
+scripts/dev.sh
+docker-compose.minio.yml
+
+# macOS Finder duplicates ("Name 2.ext")
+*[[:space:]]2.*
+*[[:space:]]2/
+
+# lockfiles from other package managers (project uses pnpm)
+package-lock.json
+yarn.lock

@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import {
-  Lock,
   Unlock,
   Scissors,
   FileSymlink,
@@ -18,7 +17,6 @@ type ToolKey =
   | "split"
   | "compress"
   | "translate"
-  | "protect"
   | "unlock"
   | "pdf2word";
 
@@ -61,12 +59,6 @@ const ALL_TOOLS: Tool[] = [
     href: "/dashboard/tools/translate",
   },
   {
-    key: "protect",
-    label: "Zaheslovať PDF",
-    icon: <Lock size={16} />,
-    href: "/dashboard/tools/protect",
-  },
-  {
     key: "unlock",
     label: "Odomknúť PDF",
     icon: <Unlock size={16} />,
@@ -85,7 +77,6 @@ const DEFAULT_PINNED: ToolKey[] = [
   "merge",
   "compress",
   "translate",
-  "protect",
   "pdf2word",
 ];
 

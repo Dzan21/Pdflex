@@ -1,12 +1,14 @@
 import express from "express";
 import bcrypt from "bcryptjs";
 import jwt, { type Secret, type SignOptions } from "jsonwebtoken";
+import pino from "pino";
 import prisma from "../prisma";
 import { generateRandomToken, hashToken } from "../utils";
 import { sendEmail } from "../email";
 import type { AuthRequest } from "../middleware/auth";
 import { requireAuth } from "../middleware/auth";
 
+const logger = pino({ name: "pdflex-auth", level: process.env.LOG_LEVEL || "info" });
 const router = express.Router();
 
 // ===== ENV konštanty =====
@@ -54,7 +56,7 @@ router.post("/register", async (req, res) => {
 
     return res.json({ ok: true, message: "Registered. Check your email." });
   } catch (err) {
-    console.error(err);
+    logger.error({ err }, "Request error");
     return res.status(500).json({ error: "Server error" });
   }
 });
@@ -76,7 +78,7 @@ router.get("/verify", async (req, res) => {
 
     return res.send("Email verified — you can close this page.");
   } catch (err) {
-    console.error(err);
+    logger.error({ err }, "Request error");
     return res.status(500).send("Server error");
   }
 });
@@ -114,7 +116,7 @@ router.post("/login", async (req, res) => {
       user: { id: user.id, email: user.email, name: user.name, isEmailVerified: user.isEmailVerified },
     });
   } catch (err) {
-    console.error(err);
+    logger.error({ err }, "Request error");
     return res.status(500).json({ error: "Server error" });
   }
 });
@@ -152,7 +154,7 @@ router.post("/refresh", async (req, res) => {
 
     return res.json({ accessToken });
   } catch (err) {
-    console.error(err);
+    logger.error({ err }, "Request error");
     return res.status(500).json({ error: "Server error" });
   }
 });
@@ -168,7 +170,7 @@ router.post("/logout", async (req, res) => {
     }
     return res.json({ ok: true });
   } catch (err) {
-    console.error(err);
+    logger.error({ err }, "Request error");
     return res.status(500).json({ error: "Server error" });
   }
 });
@@ -193,7 +195,7 @@ router.post("/forgot-password", async (req, res) => {
 
     return res.json({ ok: true });
   } catch (err) {
-    console.error(err);
+    logger.error({ err }, "Request error");
     return res.status(500).json({ error: "Server error" });
   }
 });
@@ -214,7 +216,7 @@ router.post("/reset-password", async (req, res) => {
 
     return res.json({ ok: true, message: "Password reset" });
   } catch (err) {
-    console.error(err);
+    logger.error({ err }, "Request error");
     return res.status(500).json({ error: "Server error" });
   }
 });
@@ -228,7 +230,7 @@ router.get("/me", requireAuth, async (req: AuthRequest, res) => {
     });
     return res.json({ user });
   } catch (err) {
-    console.error(err);
+    logger.error({ err }, "Request error");
     return res.status(500).json({ error: "Server error" });
   }
 });

@@ -3,6 +3,9 @@ import express from "express";
 import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
 import multer from "multer";
+import pino from "pino";
+
+const logger = pino({ name: "pdflex-files", level: process.env.LOG_LEVEL || "info" });
 
 import prisma from "../prisma";
 import { requireAuth, type AuthRequest } from "../middleware/auth";
@@ -120,7 +123,7 @@ router.post(
 
       return res.json({ files: saved });
     } catch (e: any) {
-      console.error("upload-local error:", e);
+      logger.error({ err: e }, "upload-local error");
       return res.status(500).json({ error: e?.message || "Upload failed" });
     }
   }
@@ -145,7 +148,7 @@ router.delete("/:id", requireAuth, async (req: AuthRequest, res) => {
   try {
     await deleteObject(file.s3Key);
   } catch (e) {
-    console.warn("S3 delete failed:", e);
+    logger.warn({ err: e }, "S3 delete failed");
   }
 
   await prisma.file.delete({ where: { id } });

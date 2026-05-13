@@ -4,6 +4,9 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
+import pino from "pino";
+
+const logger = pino({ name: "pdflex-api", level: process.env.LOG_LEVEL || "info" });
 
 import authRoutes from "./routes/auth";
 import fileRoutes from "./routes/files";
@@ -59,4 +62,4 @@ app.use("/api/tools", toolsRoutes);
 app.use("/api/stats", statsRoutes);
 
 const PORT = Number(process.env.PORT) || 4000;
-app.listen(PORT, () => console.log(`PDFlex API listening on ${PORT}`));
+app.listen(PORT, () => logger.info(`PDFlex API listening on ${PORT}`));

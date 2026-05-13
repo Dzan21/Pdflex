@@ -2,7 +2,7 @@
 "use client";
 
 import * as React from "react";
-import { safeGet } from "@/lib/api";
+import { api } from "@/lib/api";
 import { FileText, Lock, Timer, HardDrive } from "lucide-react";
 
 /* ----------------------------- typy odpovedí ----------------------------- */
@@ -151,20 +151,8 @@ export default function StatsPanel() {
       setLoading(true);
       setErr(null);
 
-      const o = await safeGet<OverviewResp>("/api/stats/overview", {
-        monthCount: 0,
-        avgMs: 0,
-        secured: 0,
-        storageUsedBytes: 0,
-        translateCount: 0,
-        compressCount: 0,
-        mostUsedTool: "—",
-      });
-
-      const w = await safeGet<WeeklyResp>("/api/stats/weekly?days=7", {
-        labels: [],
-        values: [],
-      });
+      const o = await api<OverviewResp>("/api/stats/overview");
+      const w = await api<WeeklyResp>("/api/stats/weekly?days=7");
 
       if (!alive) return;
       setOverview(o || ({} as OverviewResp));

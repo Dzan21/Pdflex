@@ -4,10 +4,13 @@ import { Router } from "express";
 export type JobKind = "translate" | "compress" | "merge" | "split" | "protect" | "ocr" | "pdf2word" | "pdf2excel" | "pdf2ppt";
 
 type Overview = {
-  monthCount: number;       // celkový počet jobov za aktuálny mesiac
-  secured: number;          // koľko bolo "secured" (napr. protect/redact)
-  avgMs: number;            // priemerný čas spracovania
-  storageUsedPct: number;   // placeholder, ak máš storage -> tu si dosadíš
+  monthCount: number;
+  secured: number;
+  avgMs: number;
+  storageUsedBytes: number;
+  translateCount: number;
+  compressCount: number;
+  mostUsedTool: string;
 };
 
 const stats = {
@@ -17,16 +20,17 @@ const stats = {
     avgMs: 0,
     _sumMs: 0,
     _countMs: 0,
-    storageUsedPct: 0,
+    storageUsedBytes: 0,
+    translateCount: 0,
+    compressCount: 0,
+    mostUsedTool: "—",
   } as Overview & { _sumMs: number; _countMs: number },
   weekly: {
-    // posledných 7 dní (index 0 = dnes)
     labels: [] as string[],
     values: [] as number[],
   },
 };
 
-// init weekly labels
 function initWeekly() {
   const now = new Date();
   const labels: string[] = [];
@@ -42,37 +46,37 @@ function initWeekly() {
 }
 initWeekly();
 
-// nazbierať do dnešnej priehradky
 function bumpToday(cnt = 1) {
   const now = new Date();
-  const dow = now.getDay(); // 0-6
-  // weekly.labels sú za posledných 7 dní; ak prejde deň, posunieme okno
   const todaysShort = now
     .toLocaleDateString("sk-SK", { weekday: "short" })
     .replace(".", "");
 
   const lastLabel = stats.weekly.labels[6];
   if (lastLabel !== todaysShort) {
-    // posuň okno o (1..n) dní dopredu
     initWeekly();
   }
   stats.weekly.values[6] = (stats.weekly.values[6] || 0) + cnt;
 }
 
-// >>> Toto zavolaj po úspešnom dokončení akcie (translate/compress/...)
 export function recordJob(input: { kind: JobKind; ms: number; secured?: boolean }) {
-  // mesačné (jednoducho… pri reštarte sa nuluje; na produkcii si to naviaž na DB)
   stats.overview.monthCount += 1;
   if (input.secured) stats.overview.secured += 1;
 
-  // priemer ms
+  if (input.kind === "translate") stats.overview.translateCount += 1;
+  if (input.kind === "compress") stats.overview.compressCount += 1;
+
   stats.overview._sumMs += Math.max(0, Number(input.ms) || 0);
   stats.overview._countMs += 1;
   stats.overview.avgMs = stats.overview._countMs
     ? Math.round(stats.overview._sumMs / stats.overview._countMs)
     : 0;
 
-  // týždenné
+  const counts: Record<string, number> = {};
+  counts[input.kind] = (counts[input.kind] || 0) + 1;
+  const topKind = Object.entries(counts).sort((a, b) => b[1] - a[1])[0];
+  if (topKind) stats.overview.mostUsedTool = topKind[0];
+
   bumpToday(1);
 }
 
@@ -92,7 +96,7 @@ router.get("/weekly", (_req, res) => {
   });
 });
 
-// Pomocný endpoint na testovanie (môžeš vypnúť na produkcii)
+// POST /api/stats/debug/record — testovanie
 router.post("/debug/record", (req, res) => {
   const { kind = "translate", ms = 420, secured = false } = req.body || {};
   recordJob({ kind, ms, secured });
